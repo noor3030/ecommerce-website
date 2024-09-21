@@ -28,6 +28,8 @@ export default {
         greenDark: "#2FAE4F",
         beigeLight: "#FFE6CC",
         beigeDark: "#4C2800",
+        backgroundLight:"#FFFFFF",
+        backgroundDark:"#0D0D0D",
       },
       fontFamily: {
         sans: ["IBM_Plex_Sans_Arabic"],

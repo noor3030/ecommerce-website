@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { initFlowbite } from 'flowbite';
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import 'animate.css';
 
 import { 
@@ -14,7 +15,8 @@ import {
     initModals, 
     initPopovers, 
     initTabs, 
-    initTooltips } from 'flowbite'
+    initTooltips 
+} from 'flowbite';
 
 // initialize components based on data attribute selectors
 onMounted(() => {
@@ -29,15 +31,19 @@ onMounted(() => {
     initPopovers();
     initTabs();
     initTooltips();
-})
+});
 onMounted(() => {
   initFlowbite();
-})
+});
+
+const { locale } = useI18n();
+const direction = computed(() => (locale.value === 'ar' ? 'rtl' : 'ltr'));
 </script>
 
 <template>
- 
+ <main :dir="direction" class="bg-backgroundLight dark:bg-backgroundDark">
   <RouterView />
+ </main>
 </template>
 
 <style>
@@ -45,12 +51,10 @@ onMounted(() => {
   src: url('./assets/fonts/IBM_Plex_Sans_Arabic/IBMPlexSansArabic-Regular.ttf');
   font-family: 'IBM Plex Sans Arabic';
 }
-body{
+body {
   font-family: 'IBM Plex Sans Arabic', sans-serif;
-
 }
 .material-icons {
   font-family: "Material Icons";
 }
-
 </style>

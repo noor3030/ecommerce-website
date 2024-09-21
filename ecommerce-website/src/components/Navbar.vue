@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import ThemeSwitcher from "./ThemeSwitcher.vue";
 import LanguageSwitcher from "./LanguageSwitcher.vue";
+import { ref } from "vue";
+const currentTheme = ref('');
+currentTheme.value = localStorage.getItem('theme') || '';
 </script>
 
 <template>
@@ -14,10 +17,11 @@ import LanguageSwitcher from "./LanguageSwitcher.vue";
       <button>{{ $t('shopNow') }}</button>
     </nav>
     <div class="flex px-6 items-center justify-between">
-      <div class="flex items-center space-x-2">
-        <img src="../assets/images/logo.svg" alt="" />
+      <div class="flex items-center space-x-2 rtl:space-x-reverse" >
+        <img src="../assets/images/logo.svg" alt="" class="rtl:scale-x-[-1]" v-if="currentTheme === 'light'"/>
+        <img src="../assets/images/dark-logo.svg" alt="" class="rtl:scale-x-[-1]" v-else/>
         <h2 class="text-primaryLight dark:text-primaryDark font-bold">
-          ShopCart
+          {{$t('ShopCart')}}
         </h2>
       </div>
       <button
@@ -27,7 +31,7 @@ import LanguageSwitcher from "./LanguageSwitcher.vue";
         data-drawer-show="drawer-navigation"
         aria-controls="drawer-navigation"
       >
-        <span class="material-icons text-2xl"> menu </span>
+        <span class="material-icons text-2xl dark:text-white"> menu </span>
       </button>
     </div>
   </div>
@@ -42,7 +46,7 @@ import LanguageSwitcher from "./LanguageSwitcher.vue";
       aria-controls="drawer-navigation"
       class="self-end"
     >
-      <span class="material-icons text-2xl"> close </span>
+      <span class="material-icons text-2xl dark:text-white"> close </span>
     </button>
 
     <form class="max-w-md mx-auto">
@@ -63,24 +67,15 @@ import LanguageSwitcher from "./LanguageSwitcher.vue";
     </form>
 
     <ul class="flex flex-col space-y-4 text-black dark:text-white">
-      <li>Categories</li>
-      <li>Deals</li>
-      <li>What's New</li>
-      <li>Delivery</li>
-      <li>Cart</li>
-      <li>Account</li>
-      <li>Contact</li>
+      <li>{{$t('Categories')}}</li>
+      <li>{{$t('Deals')}}</li>
+      <li>{{$t("What's New")}}</li>
+      <li>{{$t('Delivery')}}</li>
+      <li>{{$t('Cart')}}</li>
+      <li>{{$t('Account')}}</li>
+      <li>{{$t('Contact')}}</li>
     </ul>
 
-    <button
-      id="dropdownDefaultButton"
-      data-dropdown-toggle="dropdown"
-      class="text-black dark:text-white flex items-center"
-      type="button"
-    >
-      Dropdown button
-      <span class="material-icons">keyboard_arrow_down</span>
-    </button>
 
     <ThemeSwitcher />
     <LanguageSwitcher />
