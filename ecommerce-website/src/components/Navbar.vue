@@ -2,8 +2,8 @@
 import ThemeSwitcher from "./ThemeSwitcher.vue";
 import LanguageSwitcher from "./LanguageSwitcher.vue";
 import { ref } from "vue";
-const currentTheme = ref('');
-currentTheme.value = localStorage.getItem('theme') || '';
+const currentTheme = ref("");
+currentTheme.value = localStorage.getItem("theme") || "";
 </script>
 
 <template>
@@ -11,17 +11,27 @@ currentTheme.value = localStorage.getItem('theme') || '';
     <nav
       class="bg-primaryLight px-6 py-2 text-center text-white dark:bg-primaryDark dark:text-black flex justify-between items-center"
     >
-      <h4>{{ $t('Get 50% off on selected items') }}</h4>
-      
+      <h4>{{ $t("Get 50% off on selected items") }}</h4>
+
       <h4>|</h4>
-      <button>{{ $t('shopNow') }}</button>
+      <button>{{ $t("shopNow") }}</button>
     </nav>
     <div class="flex px-6 items-center justify-between">
-      <div class="flex items-center space-x-2 rtl:space-x-reverse" >
-        <img src="../assets/images/logo.svg" alt="" class="rtl:scale-x-[-1]" v-if="currentTheme === 'light'"/>
-        <img src="../assets/images/dark-logo.svg" alt="" class="rtl:scale-x-[-1]" v-else/>
+      <div class="flex items-center space-x-2 rtl:space-x-reverse">
+        <img
+          src="../assets/images/logo.svg"
+          alt=""
+          class="rtl:scale-x-[-1]"
+          v-if="currentTheme === 'light'"
+        />
+        <img
+          src="../assets/images/dark-logo.svg"
+          alt=""
+          class="rtl:scale-x-[-1]"
+          v-else
+        />
         <h2 class="text-primaryLight dark:text-primaryDark font-bold">
-          {{$t('ShopCart')}}
+          {{ $t("ShopCart") }}
         </h2>
       </div>
       <button
@@ -67,17 +77,27 @@ currentTheme.value = localStorage.getItem('theme') || '';
     </form>
 
     <ul class="flex flex-col space-y-4 text-black dark:text-white">
-      <li>{{$t('Categories')}}</li>
-      <li>{{$t('Deals')}}</li>
-      <li>{{$t("What's New")}}</li>
-      <li>{{$t('Delivery')}}</li>
-      <li>{{$t('Cart')}}</li>
-      <li>{{$t('Account')}}</li>
-      <li>{{$t('Contact')}}</li>
+      <li>{{ $t("Categories") }}</li>
+      <li>{{ $t("Deals") }}</li>
+      <li>{{ $t("What's New") }}</li>
+      <li>{{ $t("Delivery") }}</li>
+      <li>{{ $t("Cart") }}</li>
+      <li>{{ $t("Account") }}</li>
+      <li>{{ $t("Contact") }}</li>
     </ul>
-
 
     <ThemeSwitcher />
     <LanguageSwitcher />
+  </div>
+
+  <div class="p-6 flex flex-col justify-center content-center text-center space-y-4"  >
+    <h1 class="text-primaryLight dark:text-primaryDark text-4xl leading-relaxed" >{{$t('Shopping And Department Store')}}</h1>
+ 
+    <img
+      src="../assets/images/banner.png"
+      alt=""
+      class="w-1/2 self-center"
+      
+    />
   </div>
 </template>
