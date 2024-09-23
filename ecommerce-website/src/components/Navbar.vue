@@ -4,11 +4,23 @@ import LanguageSwitcher from "./LanguageSwitcher.vue";
 import { ref } from "vue";
 const currentTheme = ref("");
 currentTheme.value = localStorage.getItem("theme") || "";
+
+// make the div with id navbar fixed when scrolling
+window.addEventListener("scroll", () => {
+  const navbar = document.getElementById("navbar");
+  if (navbar) {
+    if (window.scrollY > 0) {
+      navbar.classList.add("fixed", "top-0", "left-0", "z-50", 'bg-white' ,'w-full');
+    } else {
+      navbar.classList.remove("fixed", "top-0", "left-0", "z-50", 'bg-white' );
+    }
+  }
+});
 </script>
 
 <template>
   <div>
-    <div class="flex flex-col space-y-4">
+    <div class="flex flex-col space-y-4" id="navbar">
       <nav
         class="bg-primaryLight px-6 py-2 text-center text-white dark:bg-primaryDark dark:text-black flex justify-between items-center"
       >
@@ -17,8 +29,8 @@ currentTheme.value = localStorage.getItem("theme") || "";
         <h4>|</h4>
         <button>{{ $t("shopNow") }}</button>
       </nav>
-      <div class="flex px-6 items-center justify-between">
-        <div class="flex items-center space-x-2 rtl:space-x-reverse">
+      <div class="flex px-6 items-center justify-between " >
+        <div class="flex items-center space-x-2 rtl:space-x-reverse " >
           <img
             src="../assets/images/logo.svg"
             alt=""

@@ -20,6 +20,11 @@ const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const categories = collection(db, 'Categories');
+const discounts = collection(db, 'discounts');
+const advertisements = collection(db, 'advertisements');
+const bestDeals = collection(db, 'bestDeals');
+const brands = collection(db, 'brands');
+const services = collection(db, 'services');
 const storage = getStorage(app);
 
-export { app, analytics, auth, db, storage , categories};
+export { app, analytics, auth, db, storage , categories, discounts, advertisements, bestDeals, brands, services };
