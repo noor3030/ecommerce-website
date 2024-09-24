@@ -31,7 +31,7 @@ onMounted(async () => {
     <div class="grid grid-cols-1 space-y-4">
       <div
         v-for="brand in brandsList"
-        class="bg-secondaryLight dark:bg-secondaryDark rounded-2xl flex p-2 justify-between items-center"
+        class="bg-secondaryLight dark:bg-secondaryDark rounded-2xl flex p-4 justify-between items-center"
       >
         <div>
           <h2 class="text-black dark:text-white font-bold text-xl">
