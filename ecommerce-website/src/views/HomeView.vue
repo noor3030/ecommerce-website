@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar.vue";
 import HomeCategories from "@/components/HomeCategories.vue";
 import BestDeals from "@/components/BestDeals.vue";
 import Brands from "@/components/Brands.vue";
+import Advertisements from "@/components/Advertisements.vue";
 </script>
 
 <template>
@@ -27,5 +28,6 @@ import Brands from "@/components/Brands.vue";
       </div>
       <img src="../assets/images/credit-card.png" alt="" class="w-1/2" />
     </div>
+    <Advertisements />
   </div>
 </template>

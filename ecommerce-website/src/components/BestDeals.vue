@@ -67,7 +67,7 @@ const formatPrice = (price : number) => {
             star
           </span>
         </div>
-        <button class="text-black dark:text-white border rounded-2xl p-2.5 dark:border-white border-black">
+        <button class="text-black dark:text-white border rounded-3xl p-2.5 dark:border-white border-black">
           {{ $t("Add to Cart") }}
         </button>
       </div>
