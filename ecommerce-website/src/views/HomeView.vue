@@ -2,6 +2,7 @@
 import Navbar from '@/components/Navbar.vue'
 import HomeCategories from '@/components/HomeCategories.vue';
 import BestDeals from '@/components/BestDeals.vue';
+import Brands from '@/components/Brands.vue';
 </script>
 
 <template>
@@ -9,6 +10,7 @@ import BestDeals from '@/components/BestDeals.vue';
         <Navbar />
         <HomeCategories />
         <BestDeals />
+        <Brands />
 
     </div>
 

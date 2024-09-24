@@ -2,15 +2,13 @@
 import ThemeSwitcher from "./ThemeSwitcher.vue";
 import LanguageSwitcher from "./LanguageSwitcher.vue";
 import { ref } from "vue";
-const currentTheme = ref("");
-currentTheme.value = localStorage.getItem("theme") || "";
 
-// make the div with id navbar fixed when scrolling
+
 window.addEventListener("scroll", () => {
   const navbar = document.getElementById("navbar");
   if (navbar) {
     if (window.scrollY > 0) {
-      navbar.classList.add("fixed", "top-0", "left-0", "z-50", 'bg-white' ,'w-full');
+      navbar.classList.add("fixed", "top-0", "left-0", "z-50", 'bg-white' ,'w-full' ,'dark:bg-black');
     } else {
       navbar.classList.remove("fixed", "top-0", "left-0", "z-50", 'bg-white' );
     }
@@ -34,14 +32,13 @@ window.addEventListener("scroll", () => {
           <img
             src="../assets/images/logo.svg"
             alt=""
-            class="rtl:scale-x-[-1]"
-            v-if="currentTheme === 'light'"
+            class="rtl:scale-x-[-1] block dark:hidden"
+
           />
           <img
             src="../assets/images/dark-logo.svg"
             alt=""
-            class="rtl:scale-x-[-1]"
-            v-else
+            class="rtl:scale-x-[-1] hidden dark:block"
           />
           <h2 class="text-primaryLight dark:text-primaryDark font-bold">
             {{ $t("ShopCart") }}
@@ -60,7 +57,7 @@ window.addEventListener("scroll", () => {
     </div>
     <div
       id="drawer-navigation"
-      class="fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-64 dark:bg-gray-800 flex flex-col space-y-4"
+      class="fixed top-0 left-0 z-50 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white w-64 dark:bg-gray-800 flex flex-col space-y-4"
       aria-labelledby="drawer-navigation-label"
     >
       <button
