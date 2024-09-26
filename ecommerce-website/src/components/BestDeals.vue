@@ -11,6 +11,7 @@ interface BestDeal {
 }
 
 const bestDealsList = ref<BestDeal[]>([]);
+
 onMounted(async () => {
   const bestDealsData: QuerySnapshot<DocumentData> = await getDocs(bestDeals);
   bestDealsData.forEach((doc) => {
@@ -22,7 +23,6 @@ onMounted(async () => {
 });
 
 const formatPrice = (price : number) => {
-  // put a coomma every 3 digits
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 </script>
