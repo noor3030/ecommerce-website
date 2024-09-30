@@ -5,6 +5,7 @@ import BestDeals from "@/components/BestDeals.vue";
 import Brands from "@/components/Brands.vue";
 import Advertisements from "@/components/Advertisements.vue";
 import Discounts from "@/components/Discounts.vue";
+import Services from "@/components/services.vue";
 </script>
 
 <template>
@@ -31,5 +32,6 @@ import Discounts from "@/components/Discounts.vue";
     </div>
     <Advertisements />
     <Discounts />
+    <Services />
   </div>
 </template>

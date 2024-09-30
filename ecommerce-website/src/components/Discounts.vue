@@ -37,12 +37,12 @@ onMounted(() => {
     <div class="grid grid-cols-1 space-y-4">
       <div v-for="discount in discountsList" class="rounded-2xl">
         <div
-          class="flex flex-col space-y-2 rounded-xl "
+          class="flex flex-col space-y-2 rounded-xl"
           :style="{ backgroundColor: discount.bgLight, '--tw-bg-opacity': 1 }"
           :class="{ 'dark:bg-opacity-100': true }"
         >
           <div class="p-4 flex flex-col space-y-2">
-            <h1 class="font-bold text-xl dark:text-white">{{ $t("save") }}</h1>
+            <h1 class="font-bold text-xl">{{ $t("save") }}</h1>
             <div class="text-3xl font-bold">
               <h1
                 class="block rtl:hidden"
@@ -59,11 +59,11 @@ onMounted(() => {
                 {{ discount.price }} د.ع
               </h1>
             </div>
-            <p class="hidden rtl:block dark:text-white">{{ discount.arTitle }}</p>
-            <p class="block rtl:hidden dark:text-white">{{ discount.enTitle }}</p>
+            <p class="hidden rtl:block">{{ discount.arTitle }}</p>
+            <p class="block rtl:hidden">{{ discount.enTitle }}</p>
           </div>
 
-          <img :src="discount.image" alt="" class="rounded-b-xl "/>
+          <img :src="discount.image" alt="" class="rounded-b-xl" />
         </div>
       </div>
     </div>
