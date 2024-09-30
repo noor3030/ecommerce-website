@@ -2,6 +2,7 @@
 import { initFlowbite } from 'flowbite';
 import { onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import Footer from './components/Footer.vue';
 import 'animate.css';
 
 import { 
@@ -43,6 +44,7 @@ const direction = computed(() => (locale.value === 'ar' ? 'rtl' : 'ltr'));
 <template>
  <main :dir="direction" class="bg-backgroundLight dark:bg-backgroundDark">
   <RouterView />
+  <Footer />
  </main>
 </template>
 
