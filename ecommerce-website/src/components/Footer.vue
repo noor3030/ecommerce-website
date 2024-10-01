@@ -26,15 +26,20 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="px-6 pt-24 flex flex-col space-y-6">
+  <div class="px-6 pt-24 flex flex-col space-y-6 dark:text-white">
     <!-- logo -->
     <div class="flex flex-col space-y-2">
       <logo />
       <p class="text-sm">{{ $t("bannerDescription") }}</p>
       <h1>{{ $t("Accepted Payment Methods") }}</h1>
-      <div class="flex space-x-2">
+      <div class="flex space-x-2 rtl:space-x-reverse">
         <img src="../assets/images/visa.svg" alt="" class="w-1/5" />
-        <img src="../assets/images/zain.svg" alt="" class="w-1/5" />
+        <img src="../assets/images/zain.svg" alt="" class="w-1/5 dark:hidden" />
+        <img
+          src="../assets/images/zain-dark.svg"
+          alt=""
+          class="w-1/5 hidden dark:block"
+        />
       </div>
     </div>
     <!-- categories -->
