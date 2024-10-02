@@ -4,6 +4,7 @@ import { ref } from "vue";
 import { onMounted } from "vue";
 import { getDocs, QuerySnapshot } from "firebase/firestore";
 import type { DocumentData } from "firebase/firestore";
+import router from "@/router";
 
 interface Category {
   id: string;
@@ -29,7 +30,13 @@ onMounted(async () => {
       {{ $t("Shop Our Top Categories") }}
     </h1>
     <div class="flex flex-col space-y-4 justify-center content-center">
-      <div v-for="category in categoriesList" class="space-y-2">
+      <router-link
+        v-for="category in categoriesList"
+        :key="category.id"
+        :to="`/category/${category.id}`"
+        class="flex flex-col space-y-2"
+      >
+      <div class="space-y-2">
         <img
           :src="category.image"
           alt=""
@@ -42,6 +49,7 @@ onMounted(async () => {
           {{ category.arName }}
         </h2>
       </div>
+      </router-link>
     </div>
   </section>
 </template>

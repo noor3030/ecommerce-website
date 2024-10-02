@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import Navbar from "@/components/Navbar.vue";
 import HomeCategories from "@/components/HomeCategories.vue";
 import BestDeals from "@/components/BestDeals.vue";
 import Brands from "@/components/Brands.vue";
 import Advertisements from "@/components/Advertisements.vue";
 import Discounts from "@/components/Discounts.vue";
 import Services from "@/components/services.vue";
+import HomeBanner from "@/components/HomeBanner.vue";
 </script>
 
 <template>
   <div class="flex flex-col space-y-20">
-    <Navbar />
+    <HomeBanner />
+
     <HomeCategories />
     <BestDeals />
     <Brands />
