@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import ProductsFilters from "@/components/ProductsFilters.vue";
 import { ref } from "vue";
-import { useI18n } from "vue-i18n";
-
-const { t } = useI18n();
-
+import { onMounted } from "vue";
+import { QuerySnapshot, collection, getDocs } from "firebase/firestore";
+import type { DocumentData } from "firebase/firestore";
+import { categories } from "@/includes/firebase";
+import ProductCard from "@/components/ProductCard.vue";
 const filters = ref([
   {
     enName: "Price",
@@ -102,11 +104,27 @@ const filters = ref([
   },
 ]);
 
-const dropdownStates = ref(filters.value.map(() => false));
+interface HeadPhons {
+  id: string;
+  [key: string]: any;
+}
 
-const toggleDropdown = (index: number) => {
-  dropdownStates.value[index] = !dropdownStates.value[index];
-};
+const headPhonsList = ref<HeadPhons[]>([]);
+onMounted(async () => {
+  const HeadPhonsDate: QuerySnapshot<DocumentData> = await getDocs(categories);
+  for (const doc of HeadPhonsDate.docs) {
+    const subCollectionRef = collection(doc.ref, "headPhons");
+    const subCollectionData: QuerySnapshot<DocumentData> = await getDocs(
+      subCollectionRef
+    );
+    const subCollectionItems = subCollectionData.docs.map((subDoc) => ({
+      id: subDoc.id,
+      ...subDoc.data(),
+    }));
+
+    headPhonsList.value = [...headPhonsList.value, ...subCollectionItems];
+  }
+});
 </script>
 
 <template>
@@ -124,43 +142,10 @@ const toggleDropdown = (index: number) => {
       </div>
       <img src="../assets/images/People.png" alt="" class="w-1/2" />
     </div>
-    <div class="px-6 flex justify-start flex-wrap">
-      <div class="dropdown" v-for="(filter, index) in filters" :key="index">
-        <button
-          class="m-1 flex flex-row bg-secondaryLight text-onSecondaryLight dark:bg-secondaryDark dark:text-onSecondaryDark p-2 rounded-xl"
-          @click="toggleDropdown(index)"
-        >
-          <span class="rtl:hidden"> {{ filter.enName }}</span>
-          <span class="hidden rtl:block"> {{ filter.arName }}</span>
-          <span class="material-icons">keyboard_arrow_down</span>
-        </button>
-
-        <ul
-          v-if="dropdownStates[index]"
-          class="dropdown-content bg-base-100 rounded-box z-[1] p-2 shadow w-40 h-48 overflow-auto flex flex-col space-y-2"
-        >
-          <li
-            v-for="value in filter.enValues"
-            class="rtl:hidden"
-            :key="value.value"
-          >
-            <div class="flex space-x-2">
-              <input type="checkbox" class="checkbox" />
-              <a>{{ value.name }}</a>
-            </div>
-          </li>
-          <li
-            v-for="value in filter.arValues"
-            class="rtl:block hidden"
-            :key="value.value"
-          >
-            <div class="flex space-x-2">
-              <input type="checkbox" class="checkbox" />
-              <a>{{ value.name }}</a>
-            </div>
-          </li>
-        </ul>
-      </div>
+    <ProductsFilters :filters="filters" />
+    <div v-for="headPhon in headPhonsList" class="px-6">
+      <ProductCard :product="headPhon" :ifShow="true"/>
+      
     </div>
   </div>
 </template>
