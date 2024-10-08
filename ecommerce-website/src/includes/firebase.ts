@@ -25,6 +25,7 @@ const advertisements = collection(db, "advertisements");
 const bestDeals = collection(db, "bestDeals");
 const brands = collection(db, "brands");
 const services = collection(db, "services");
+const products = collection(db, "products");
 const storage = getStorage(app);
 
 export {
@@ -39,4 +40,5 @@ export {
   bestDeals,
   brands,
   services,
+  products
 };

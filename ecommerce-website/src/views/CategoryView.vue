@@ -4,7 +4,7 @@ import { ref } from "vue";
 import { onMounted, computed } from "vue";
 import { QuerySnapshot, collection, getDocs } from "firebase/firestore";
 import type { DocumentData } from "firebase/firestore";
-import { categories } from "@/includes/firebase";
+import { categories, products } from "@/includes/firebase";
 import ProductCard from "@/components/ProductCard.vue";
 import { useI18n } from "vue-i18n";
 
@@ -104,10 +104,14 @@ interface HeadPhons {
   id: string;
   [key: string]: any;
 }
-
+interface Products {
+  id: string;
+  [key: string]: any;
+}
 const headPhonsList = ref<HeadPhons[]>([]);
 const page = ref(1);
 const perPage = ref(2);
+const productsList = ref<Products[]>([]);
 
 onMounted(async () => {
   const HeadPhonsDate: QuerySnapshot<DocumentData> = await getDocs(categories);
@@ -123,6 +127,13 @@ onMounted(async () => {
 
     headPhonsList.value = [...headPhonsList.value, ...subCollectionItems];
   }
+  const productData: QuerySnapshot<DocumentData> = await getDocs(products);
+  productData.forEach((doc) => {
+    productsList.value.push({
+      id: doc.id,
+      ...doc.data(),
+    });
+  });
 });
 
 const filteredHeadPhons = computed(() => {
@@ -135,13 +146,10 @@ const filteredHeadPhons = computed(() => {
 const totalPages = computed(() => {
   return Math.ceil(headPhonsList.value.length / perPage.value);
 });
-const isRtl = computed(() => {
-  return locale.value === "ar";
-});
 </script>
 
 <template>
-  <div class="space-y-6 pt-2">
+  <div class="space-y-10 pt-2">
     <div class="px-6 pt-6 bg-beigeLight dark:bg-beigeDark flex items-center">
       <div class="flex flex-col space-y-4 pb-6">
         <h1 class="font-bold text-primaryLight dark:text-primaryDark text-xl">
@@ -163,24 +171,32 @@ const isRtl = computed(() => {
       <div v-for="headPhon in filteredHeadPhons" :key="headPhon.id">
         <ProductCard :product="headPhon" :ifShow="true" />
       </div>
+      <v-pagination
+        v-model="page"
+        :length="totalPages"
+        rounded="circle"
+        nextIcon="mdi-chevron-left"
+        prevIcon="mdi-chevron-right"
+        class="hidden rtl:block"
+      ></v-pagination>
+
+      <v-pagination
+        v-model="page"
+        :length="totalPages"
+        rounded="circle"
+        nextIcon="mdi-chevron-right"
+        prevIcon="mdi-chevron-left"
+        class="block rtl:hidden"
+      ></v-pagination>
     </section>
 
-    <v-pagination
-      v-model="page"
-      :length="totalPages"
-      rounded="circle"
-      nextIcon="mdi-chevron-left"
-      prevIcon="mdi-chevron-right"
-      class="hidden rtl:block"
-    ></v-pagination>
-
-    <v-pagination
-      v-model="page"
-      :length="totalPages"
-      rounded="circle"
-      nextIcon="mdi-chevron-right"
-      prevIcon="mdi-chevron-left"
-      class="block rtl:hidden"
-    ></v-pagination>
+    <section class="container px-6 space-y-4">
+      <h1 class="dark:text-white text-xl text-center">
+        {{ $t("Weekly Popular Products") }}
+      </h1>
+      <div v-for="product in productsList">
+        <ProductCard :product="product" :ifShow="false" />
+      </div>
+    </section>
   </div>
 </template>
