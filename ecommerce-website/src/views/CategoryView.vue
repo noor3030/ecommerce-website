@@ -6,9 +6,7 @@ import { QuerySnapshot, collection, getDocs } from "firebase/firestore";
 import type { DocumentData } from "firebase/firestore";
 import { categories, products } from "@/includes/firebase";
 import ProductCard from "@/components/ProductCard.vue";
-import { useI18n } from "vue-i18n";
-
-const { locale } = useI18n();
+import Services from "@/components/Services.vue";
 const filters = ref([
   {
     enName: "Price",
@@ -198,5 +196,6 @@ const totalPages = computed(() => {
         <ProductCard :product="product" :ifShow="false" />
       </div>
     </section>
+    <Services />
   </div>
 </template>
