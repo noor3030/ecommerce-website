@@ -4,6 +4,8 @@ import { onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Footer from './components/Footer.vue';
 import Navbar from './components/Navbar.vue';
+import 'vuetify/styles'
+import '@mdi/font/css/materialdesignicons.css'
 import 'animate.css';
 
 import { 

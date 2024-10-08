@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import ProductsFilters from "@/components/ProductsFilters.vue";
 import { ref } from "vue";
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { QuerySnapshot, collection, getDocs } from "firebase/firestore";
 import type { DocumentData } from "firebase/firestore";
 import { categories } from "@/includes/firebase";
 import ProductCard from "@/components/ProductCard.vue";
+import { useI18n } from "vue-i18n";
+
+const { locale } = useI18n();
 const filters = ref([
   {
     enName: "Price",
@@ -16,7 +19,6 @@ const filters = ref([
       { name: "$100 - $200", value: "100-200" },
       { name: "Over $200", value: "200-10000" },
     ],
-
     arValues: [
       { name: "أقل من 50 دولار", value: "0-50" },
       { name: "50 - 100 دولار", value: "50-100" },
@@ -24,7 +26,6 @@ const filters = ref([
       { name: "أكثر من 200 دولار", value: "200-10000" },
     ],
   },
-
   {
     enName: "Color",
     arName: "اللون",
@@ -43,7 +44,6 @@ const filters = ref([
       { name: "Gold", value: "gold" },
       { name: "Silver", value: "silver" },
     ],
-
     arValues: [
       { name: "أسود", value: "black" },
       { name: "أبيض", value: "white" },
@@ -60,7 +60,6 @@ const filters = ref([
       { name: "فضي", value: "silver" },
     ],
   },
-
   {
     enName: "Reviews",
     arName: "التقييمات",
@@ -71,7 +70,6 @@ const filters = ref([
       { name: "4 Star", value: "4" },
       { name: "5 Star", value: "5" },
     ],
-
     arValues: [
       { name: "نجمة 1", value: "1" },
       { name: "نجمة 2", value: "2" },
@@ -80,7 +78,6 @@ const filters = ref([
       { name: "نجمة 5", value: "5" },
     ],
   },
-
   {
     enName: "Brand",
     arName: "العلامة التجارية",
@@ -92,7 +89,6 @@ const filters = ref([
       { name: "Bose", value: "bose" },
       { name: "Beats", value: "beats" },
     ],
-
     arValues: [
       { name: "أبل", value: "apple" },
       { name: "سامسونج", value: "samsung" },
@@ -110,6 +106,9 @@ interface HeadPhons {
 }
 
 const headPhonsList = ref<HeadPhons[]>([]);
+const page = ref(1);
+const perPage = ref(2);
+
 onMounted(async () => {
   const HeadPhonsDate: QuerySnapshot<DocumentData> = await getDocs(categories);
   for (const doc of HeadPhonsDate.docs) {
@@ -124,6 +123,20 @@ onMounted(async () => {
 
     headPhonsList.value = [...headPhonsList.value, ...subCollectionItems];
   }
+});
+
+const filteredHeadPhons = computed(() => {
+  return headPhonsList.value.slice(
+    (page.value - 1) * perPage.value,
+    page.value * perPage.value
+  );
+});
+
+const totalPages = computed(() => {
+  return Math.ceil(headPhonsList.value.length / perPage.value);
+});
+const isRtl = computed(() => {
+  return locale.value === "ar";
 });
 </script>
 
@@ -143,11 +156,31 @@ onMounted(async () => {
       <img src="../assets/images/People.png" alt="" class="w-1/2" />
     </div>
     <ProductsFilters :filters="filters" />
-    <div v-for="headPhon in headPhonsList" class="px-6">
-      <ProductCard :product="headPhon" :ifShow="true"/>
-      
-    </div>
+    <section class="container px-6 space-y-4">
+      <h1 class="dark:text-white text-xl text-center">
+        {{ $t("HeadPhons For You") }}
+      </h1>
+      <div v-for="headPhon in filteredHeadPhons" :key="headPhon.id">
+        <ProductCard :product="headPhon" :ifShow="true" />
+      </div>
+    </section>
+
+    <v-pagination
+      v-model="page"
+      :length="totalPages"
+      rounded="circle"
+      nextIcon="mdi-chevron-left"
+      prevIcon="mdi-chevron-right"
+      class="hidden rtl:block"
+    ></v-pagination>
+
+    <v-pagination
+      v-model="page"
+      :length="totalPages"
+      rounded="circle"
+      nextIcon="mdi-chevron-right"
+      prevIcon="mdi-chevron-left"
+      class="block rtl:hidden"
+    ></v-pagination>
   </div>
 </template>
-
-<style></style>

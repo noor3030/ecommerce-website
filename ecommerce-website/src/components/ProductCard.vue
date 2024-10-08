@@ -15,11 +15,11 @@ const formatPrice = (price: number) => {
 
 <template>
   <div>
-    <div class="bg-secondaryLight dark:bg-secondaryDark rounded-xl p-4">
+    <div class="bg-secondaryLight dark:bg-secondaryDark rounded-xl p-4 flex">
       <div>
         <span class="material-icons dark:text-white">favorite</span>
       </div>
-      <img :src="product.image" alt="" class="w-full" />
+      <img :src="product.image" alt="" class="w-10/12 self-center" />
     </div>
     <div>
       <div
