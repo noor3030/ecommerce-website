@@ -13,7 +13,7 @@
     <img src="../assets/images/banner.png" alt="" class="w-1/2 self-center" />
 
     <button
-      class="bg-primaryLight w-fit self-center p-2 rounded-3xl px-4 dark:bg-primaryDark text-white dark:text-black"
+      class="bg-primaryLight w-fit self-center p-2 rounded-3xl px-4 dark:bg-primaryDark text-[#fff] dark:text-black"
     >
       {{ $t("learnMore") }}
     </button>

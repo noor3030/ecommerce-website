@@ -32,7 +32,7 @@ onMounted(async () => {
     <div class="flex flex-col space-y-4">
       <div
         v-for="service in servicesList"
-        class="bg-secondaryLight dark:bg-secondaryDark text-black dark:text-white rounded-2xl space-y-4 flex flex-col pt-0 h-fit w-fit"
+        class="bg-secondaryLight dark:bg-secondaryDark text-[#000] dark:text-[#fff] rounded-2xl space-y-4 flex flex-col pt-0 h-fit w-fit"
       >
         <div class="p-4">
           <h1 class="hidden rtl:block font-bold">{{ service.arTitle }}</h1>

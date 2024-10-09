@@ -17,13 +17,13 @@ const formatPrice = (price: number) => {
   <div>
     <div class="bg-secondaryLight dark:bg-secondaryDark rounded-xl p-4 flex">
       <div>
-        <span class="material-icons dark:text-white">favorite</span>
+        <span class="material-icons dark:text-[#fff]">favorite</span>
       </div>
       <img :src="product.image" alt="" class="w-10/12 self-center" />
     </div>
     <div>
       <div
-        class="flex text-black dark:text-white justify-between items-center pt-4 pb-1"
+        class="flex text-[#000] dark:text-[#fff] justify-between items-center pt-4 pb-1"
       >
         <h2 class="rtl:hidden font-bold text-xl">
           {{ product.enTitle }}
@@ -68,7 +68,8 @@ const formatPrice = (price: number) => {
       </span>
     </div>
     <button
-      class="text-black dark:text-white border rounded-3xl p-2.5 dark:border-white border-black text-sm"
+      class="text-[#000] dark:text-[#fff] rounded-3xl p-2.5 text-sm"
+      style="border: 1px solid"
     >
       {{ $t("Add to Cart") }}
     </button>

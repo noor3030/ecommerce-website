@@ -2,7 +2,7 @@
   <div class="relative inline-block text-left">
     <button
       @click="toggleDropdown"
-      class="text-black dark:text-white flex items-center"
+      class="text-[#000] dark:text-[#fff] flex items-center"
       type="button"
     >
       {{ currentLanguage }}
@@ -10,7 +10,7 @@
     </button>
     <div
       v-if="dropdownOpen"
-      class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-700 ring-1 ring-black ring-opacity-5"
+      class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-[#fff] dark:bg-gray-700 ring-1 ring-black ring-opacity-5"
     >
       <div
         class="py-1 rounded-xl"
@@ -22,7 +22,7 @@
           href="#"
           @click.prevent="changeLanguage('en')"
           :class="{
-            'bg-primaryLight dark:bg-primaryDark text-white dark:text-black': locale === 'en',
+            'bg-primaryLight dark:bg-primaryDark text-[#fff] dark:text-black': locale === 'en',
             'text-gray-700 dark:text-gray-300': locale !== 'en',
           }"
           class="block px-4 py-2 text-sm rounded-xl"
@@ -34,7 +34,7 @@
           href="#"
           @click.prevent="changeLanguage('ar')"
           :class="{
-           'bg-primaryLight dark:bg-primaryDark text-white dark:text-black': locale === 'ar',
+           'bg-primaryLight dark:bg-primaryDark text-[#fff] dark:text-black': locale === 'ar',
             'text-gray-700 dark:text-gray-300': locale !== 'ar',
           }"
           class="block px-4 py-2 text-sm rounded-xl"

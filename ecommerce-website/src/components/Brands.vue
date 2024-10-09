@@ -34,7 +34,7 @@ onMounted(async () => {
         class="bg-secondaryLight dark:bg-secondaryDark rounded-2xl flex p-4 justify-between items-center"
       >
         <div>
-          <h2 class="text-black dark:text-white font-bold text-xl">
+          <h2 class="text-[#000] dark:text-[#fff] font-bold text-xl">
             {{ brand.name }}
           </h2>
             <p class="text-onSecondaryLight dark:text-onSecondaryDark hidden rtl:block">

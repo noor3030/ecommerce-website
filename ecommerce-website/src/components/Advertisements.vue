@@ -33,10 +33,10 @@ onMounted(async () => {
       <img :src="advertisement.image" alt="" class="rounded-t-2xl" />
 
       <div class="flex flex-col p-4 space-y-1.5">
-        <h2 class="text-black dark:text-white font-bold block rtl:hidden">
+        <h2 class="text-[#000] dark:text-[#fff] font-bold block rtl:hidden">
           {{ advertisement.enTitle }}
         </h2>
-        <h2 class="text-black dark:text-white font-bold hidden rtl:block">
+        <h2 class="text-[#000] dark:text-[#fff] font-bold hidden rtl:block">
           {{ advertisement.arTitle }}
         </h2>
         <p
@@ -49,7 +49,7 @@ onMounted(async () => {
         >
           {{ advertisement.enSubtitle }}
         </p>
-        <button class="bg-black dark:bg-white text-white dark:text-black rounded-3xl py-2 w-1/3" >{{ $t("shopNow") }}</button>
+        <button class="bg-[#000] dark:bg-[#fff] text-[#fff] dark:text-[#000] rounded-3xl py-2 w-1/3" >{{ $t("shopNow") }}</button>
       </div>
     </div>
   </div>
