@@ -17,7 +17,7 @@ const formatPrice = (price: number) => {
   <div>
     <div class="bg-secondaryLight dark:bg-secondaryDark rounded-xl p-4 flex">
       <div>
-        <span class="material-icons dark:text-[#fff]">favorite</span>
+        <v-icon icon="mdi-heart-outline" class="dark:text-[#fff]"></v-icon>
       </div>
       <img :src="product.image" alt="" class="w-10/12 self-center" />
     </div>
@@ -60,12 +60,11 @@ const formatPrice = (price: number) => {
       {{ product.enSubtitle }}
     </p>
     <div class="pb-1">
-      <span
-        class="material-icons text-greenLight dark:text-greenDark"
+      <v-icon
+        icon="mdi-star"
+        class="text-greenLight dark:text-greenDark"
         v-for="i in product.rate"
-      >
-        star
-      </span>
+      ></v-icon>
     </div>
     <button
       class="text-[#000] dark:text-[#fff] rounded-3xl p-2.5 text-sm"

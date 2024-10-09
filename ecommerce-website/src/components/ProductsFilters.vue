@@ -25,7 +25,7 @@ const toggleDropdown = (index: number) => {
       >
         <span class="rtl:hidden"> {{ filter.enName }}</span>
         <span class="hidden rtl:block"> {{ filter.arName }}</span>
-        <span class="material-icons">keyboard_arrow_down</span>
+        <v-icon icon="mdi-chevron-down"></v-icon>
       </button>
 
       <ul

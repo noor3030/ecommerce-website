@@ -8,13 +8,7 @@ window.addEventListener("scroll", () => {
   const navbar = document.getElementById("navbar");
   if (navbar) {
     if (window.scrollY > 0) {
-      navbar.classList.add(
-        "fixed",
-        "top-0",
-        "left-0",
-        "z-50",
-        "w-full"
-      );
+      navbar.classList.add("fixed", "top-0", "left-0", "z-50", "w-full");
     } else {
       navbar.classList.remove("fixed", "top-0", "left-0", "z-50");
     }
@@ -42,7 +36,7 @@ window.addEventListener("scroll", () => {
           data-drawer-show="drawer-navigation"
           aria-controls="drawer-navigation"
         >
-          <span class="material-icons text-2xl dark:text-white"> menu </span>
+          <v-icon icon="mdi-menu" class="text-2xl dark:text-white"></v-icon>
         </button>
       </div>
     </div>
@@ -57,7 +51,10 @@ window.addEventListener("scroll", () => {
         aria-controls="drawer-navigation"
         class="self-end"
       >
-        <span class="material-icons text-2xl dark:text-[#ffff]"> close </span>
+        <v-icon
+          icon="mdi-close"
+          class="text-2xl dark:text-[#ffff]"
+        ></v-icon>
       </button>
 
       <form class="max-w-md mx-auto">
@@ -65,7 +62,7 @@ window.addEventListener("scroll", () => {
           <div
             class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
           >
-            <span class="material-icons"> search </span>
+            <v-icon icon="mdi-magnify" class="mt-1"></v-icon>
           </div>
           <input
             type="search"

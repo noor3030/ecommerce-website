@@ -7,7 +7,7 @@
     >
       <span v-if="currentTheme === 'light'">  {{ ($t('light')) }}</span>
       <span v-else>  {{ ($t('dark')) }}</span>
-      <span class="material-icons">keyboard_arrow_down</span>
+      <v-icon icon="mdi-chevron-down"></v-icon>
     </button>
     <div
       v-if="dropdownOpen"
