@@ -61,7 +61,4 @@ const direction = computed(() => (locale.value === "ar" ? "rtl" : "ltr"));
 body {
   font-family: "IBM Plex Sans Arabic", sans-serif;
 }
-/* .material-icons {
-  font-family: "Material Icons";
-} */
 </style>

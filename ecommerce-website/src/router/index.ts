@@ -15,6 +15,11 @@ const router = createRouter({
       name: "category",
       component: () => import("../views/CategoryView.vue"),
     },
+    {
+      path: "/product/:id",
+      name: "product",
+      component: () => import("../views/ProductView.vue"),
+    },
   ],
 });
 

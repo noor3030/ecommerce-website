@@ -7,6 +7,7 @@ import type { DocumentData } from "firebase/firestore";
 import { categories, products } from "@/includes/firebase";
 import ProductCard from "@/components/ProductCard.vue";
 import Services from "@/components/Services.vue";
+import router from "@/router";
 const filters = ref([
   {
     enName: "Price",
@@ -167,7 +168,14 @@ const totalPages = computed(() => {
         {{ $t("HeadPhons For You") }}
       </h1>
       <div v-for="headPhon in filteredHeadPhons" :key="headPhon.id">
-        <ProductCard :product="headPhon" :ifShow="true" />
+        <router-link
+          :to="{
+            name: 'product',
+            query: { headPhon: JSON.stringify(headPhon) },
+          }"
+        >
+          <ProductCard :product="headPhon" :ifShow="true" />
+        </router-link>
       </div>
       <v-pagination
         v-model="page"
