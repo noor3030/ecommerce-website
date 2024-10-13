@@ -31,7 +31,7 @@ const counter = ref(1);
       </div>
     </div>
     <!-- info -->
-    <div>
+    <div class="dark:text-[#fff]">
       <div class="border-b flex flex-col space-y-2 py-2">
         <h1 class="font-bold rtl:hidden">{{ headPhon.enTitle }}</h1>
         <h1 class="font-bold hidden rtl:block">{{ headPhon.arTitle }}</h1>
@@ -53,7 +53,7 @@ const counter = ref(1);
           {{ formatPrice(headPhon.price) }} د.ع
         </h1>
       </div>
-      <div class="border-b flex space-x-2 py-2">
+      <div class="border-b flex space-x-2 py-2 rtl:space-x-reverse">
         <div
           v-for="color in headPhon.colors"
           class="pa-5 rounded-full"
@@ -62,20 +62,20 @@ const counter = ref(1);
       </div>
       <div class="border-b py-2">
         <div
-          class="bg-secondaryLight dark:bg-secondaryDark text-onSecondaryLight dark:text-onSecondaryDark rounded-3xl p-2 w-fit flex space-x-4 px-4"
+          class="bg-secondaryLight dark:bg-secondaryDark text-onSecondaryLight dark:text-onSecondaryDark rounded-3xl p-2 w-fit flex space-x-4 px-4 rtl:space-x-reverse"
         >
           <v-icon icon="mdi-plus"> </v-icon>
           <p>{{ counter }}</p>
           <v-icon icon="mdi-minus"> </v-icon>
         </div>
       </div>
-      <div class="border-b py-2 flex space-x-4">
+      <div class="border-b py-2 flex space-x-4 rtl:space-x-reverse">
         <button
           class="bg-primaryLight dark:bg-primaryDark text-[#fff] dark:text-[#000] rounded-xl p-2 px-4"
         >
           {{ $t("Buy Now") }}
         </button>
-        <button class="rounded-xl p-2 px-4 border">
+        <button class="rounded-xl p-2 px-4" style="border: 1px solid">
           {{ $t("Add to Cart") }}
         </button>
       </div>
@@ -90,7 +90,7 @@ const counter = ref(1);
       </div>
     </div>
     <!-- general -->
-    <div class="flex flex-col space-y-2">
+    <div class="flex flex-col space-y-2 dark:text-[#fff]">
       <h1>
         {{ $t("Apple AirPods Max Wireless Headphones Full Specification") }}
       </h1>
@@ -99,7 +99,7 @@ const counter = ref(1);
       >
         <h1>{{ $t("General") }}</h1>
         <div
-          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+          class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Brand") }}</p>
           <p>{{ headPhon.brand }}</p>
@@ -112,7 +112,7 @@ const counter = ref(1);
           <p class="rtl:hidden">{{ headPhon.enModel }}</p>
         </div>
         <div
-          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+          class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Release Date") }}</p>
           <p>{{ headPhon.releaseDate }}</p>
@@ -125,7 +125,7 @@ const counter = ref(1);
           <p class="hidden rtl:block">{{ formatPrice(headPhon.price) }} د.ع</p>
         </div>
         <div
-          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+          class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Model number") }}</p>
           <p>{{ headPhon.modelNumber }}</p>
@@ -138,7 +138,7 @@ const counter = ref(1);
           <p class="hidden rtl:block">{{ headPhon.headPhoneAr }}</p>
         </div>
         <div
-          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+          class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Connectivity") }}</p>
           <p class="rtl:hidden">{{ headPhon.EnConnectivity }}</p>
@@ -147,13 +147,13 @@ const counter = ref(1);
       </div>
     </div>
     <!-- Product details -->
-    <div class="flex flex-col space-y-2">
+    <div class="flex flex-col space-y-2 dark:text-[#fff]">
       <div
         class="bg-secondaryLight dark:bg-secondaryDark p-4 rounded-lg space-y-2"
       >
         <h1>{{ $t("Product details") }}</h1>
         <div
-          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+          class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Microphone") }}</p>
           <p class="rtl:hidden">{{ headPhon.Enmicrophone }}</p>
@@ -167,7 +167,7 @@ const counter = ref(1);
           <p class="rtl:hidden">{{ headPhon.enDriverType }}</p>
         </div>
         <div
-          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+          class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Number of drivers") }}</p>
           <p>{{ headPhon.numberOfDrivers }}</p>
@@ -180,7 +180,7 @@ const counter = ref(1);
           <p class="hidden rtl:block">{{ headPhon.arWaterResistant }}</p>
         </div>
         <div
-          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+          class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Weight (g)") }}</p>
           <p>{{ headPhon.weight }}</p>
@@ -192,7 +192,7 @@ const counter = ref(1);
           <p>{{ headPhon.driverSize }}</p>
         </div>
         <div
-          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+          class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Battery Life (Hrs)") }}</p>
           <p>{{ headPhon.batteryLife }}</p>
