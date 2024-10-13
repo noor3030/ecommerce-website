@@ -4,10 +4,10 @@ import { ref } from "vue";
 import { onMounted, computed } from "vue";
 import { QuerySnapshot, collection, getDocs } from "firebase/firestore";
 import type { DocumentData } from "firebase/firestore";
-import { categories, products } from "@/includes/firebase";
+import { categories } from "@/includes/firebase";
 import ProductCard from "@/components/ProductCard.vue";
 import Services from "@/components/Services.vue";
-import router from "@/router";
+import Products from "@/components/Products.vue";
 const filters = ref([
   {
     enName: "Price",
@@ -110,7 +110,6 @@ interface Products {
 const headPhonsList = ref<HeadPhons[]>([]);
 const page = ref(1);
 const perPage = ref(2);
-const productsList = ref<Products[]>([]);
 
 onMounted(async () => {
   const HeadPhonsDate: QuerySnapshot<DocumentData> = await getDocs(categories);
@@ -126,13 +125,6 @@ onMounted(async () => {
 
     headPhonsList.value = [...headPhonsList.value, ...subCollectionItems];
   }
-  const productData: QuerySnapshot<DocumentData> = await getDocs(products);
-  productData.forEach((doc) => {
-    productsList.value.push({
-      id: doc.id,
-      ...doc.data(),
-    });
-  });
 });
 
 const filteredHeadPhons = computed(() => {
@@ -196,14 +188,7 @@ const totalPages = computed(() => {
       ></v-pagination>
     </section>
 
-    <section class="container px-6 space-y-4">
-      <h1 class="dark:text-white text-xl text-center">
-        {{ $t("Weekly Popular Products") }}
-      </h1>
-      <div v-for="product in productsList">
-        <ProductCard :product="product" :ifShow="false" />
-      </div>
-    </section>
+    <Products :title="$t('Weekly Popular Products')"/>
     <Services />
   </div>
 </template>

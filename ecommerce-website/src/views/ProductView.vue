@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Products from "@/components/Products.vue";
 import { ref } from "vue";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
@@ -78,6 +79,126 @@ const counter = ref(1);
           {{ $t("Add to Cart") }}
         </button>
       </div>
+      <div class="py-2">
+        <div class="flex space-x-2 items-center rtl:space-x-reverse">
+          <v-icon icon="mdi-truck-fast" color="orange"></v-icon>
+          <p>{{ $t("Free Delivery") }}</p>
+        </div>
+        <a href="" class="underline decoration-1">{{
+          $t("Enter your postal code for delivery availability")
+        }}</a>
+      </div>
     </div>
+    <!-- general -->
+    <div class="flex flex-col space-y-2">
+      <h1>
+        {{ $t("Apple AirPods Max Wireless Headphones Full Specification") }}
+      </h1>
+      <div
+        class="bg-secondaryLight dark:bg-secondaryDark p-4 rounded-lg space-y-2"
+      >
+        <h1>{{ $t("General") }}</h1>
+        <div
+          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+        >
+          <p>{{ $t("Brand") }}</p>
+          <p>{{ headPhon.brand }}</p>
+        </div>
+        <div
+          class="p-1 rounded-lg flex justify-between w-full content-between px-2"
+        >
+          <p>{{ $t("Model") }}</p>
+          <p class="hidden rtl:block">{{ headPhon.arModel }}</p>
+          <p class="rtl:hidden">{{ headPhon.enModel }}</p>
+        </div>
+        <div
+          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+        >
+          <p>{{ $t("Release Date") }}</p>
+          <p>{{ headPhon.releaseDate }}</p>
+        </div>
+        <div
+          class="p-1 rounded-lg flex justify-between w-full content-between px-2"
+        >
+          <p>{{ $t("Price") }}</p>
+          <p class="rtl:hidden">{{ formatPrice(headPhon.price) }} IQD</p>
+          <p class="hidden rtl:block">{{ formatPrice(headPhon.price) }} د.ع</p>
+        </div>
+        <div
+          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+        >
+          <p>{{ $t("Model number") }}</p>
+          <p>{{ headPhon.modelNumber }}</p>
+        </div>
+        <div
+          class="p-1 rounded-lg flex justify-between w-full content-between px-2"
+        >
+          <p>{{ $t("Headphone") }}</p>
+          <p class="rtl:hidden">{{ headPhon.headPhoneEn }}</p>
+          <p class="hidden rtl:block">{{ headPhon.headPhoneAr }}</p>
+        </div>
+        <div
+          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+        >
+          <p>{{ $t("Connectivity") }}</p>
+          <p class="rtl:hidden">{{ headPhon.EnConnectivity }}</p>
+          <p class="hidden rtl:block">{{ headPhon.ArConnectivity }}</p>
+        </div>
+      </div>
+    </div>
+    <!-- Product details -->
+    <div class="flex flex-col space-y-2">
+      <div
+        class="bg-secondaryLight dark:bg-secondaryDark p-4 rounded-lg space-y-2"
+      >
+        <h1>{{ $t("Product details") }}</h1>
+        <div
+          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+        >
+          <p>{{ $t("Microphone") }}</p>
+          <p class="rtl:hidden">{{ headPhon.Enmicrophone }}</p>
+          <p class="hidden rtl:block">{{ headPhon.Armicrophone }}</p>
+        </div>
+        <div
+          class="p-1 rounded-lg flex justify-between w-full content-between px-2"
+        >
+          <p>{{ $t("Driver Type") }}</p>
+          <p class="hidden rtl:block">{{ headPhon.arDriverType }}</p>
+          <p class="rtl:hidden">{{ headPhon.enDriverType }}</p>
+        </div>
+        <div
+          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+        >
+          <p>{{ $t("Number of drivers") }}</p>
+          <p>{{ headPhon.numberOfDrivers }}</p>
+        </div>
+        <div
+          class="p-1 rounded-lg flex justify-between w-full content-between px-2"
+        >
+          <p>{{ $t("Water Resistant") }}</p>
+          <p class="rtl:hidden">{{ headPhon.enWaterResistant }}</p>
+          <p class="hidden rtl:block">{{ headPhon.arWaterResistant }}</p>
+        </div>
+        <div
+          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+        >
+          <p>{{ $t("Weight (g)") }}</p>
+          <p>{{ headPhon.weight }}</p>
+        </div>
+        <div
+          class="p-1 rounded-lg flex justify-between w-full content-between px-2"
+        >
+          <p>{{ $t("Driver size") }}</p>
+          <p>{{ headPhon.driverSize }}</p>
+        </div>
+        <div
+          class="bg-[#fff] p-1 rounded-lg flex justify-between w-full content-between px-2"
+        >
+          <p>{{ $t("Battery Life (Hrs)") }}</p>
+          <p>{{ headPhon.batteryLife }}</p>
+        </div>
+      </div>
+    </div>
+    <Products :title="$t('Smiler Items Might Like')" />
   </div>
 </template>
