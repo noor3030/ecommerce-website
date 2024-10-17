@@ -4,45 +4,87 @@ import Products from "@/components/Products.vue";
 import { ref } from "vue";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { db } from "@/includes/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { db, headPhons } from "@/includes/firebase";
+import { collection, doc, getDoc } from "firebase/firestore";
 
-const headPhon = ref<Record<string, any>>({});
+interface HeadPhon {
+  image: string;
+  subImages: string[];
+  enTitle: string;
+  arTitle: string;
+  enDescription: string;
+  arDescription: string;
+  rate: number;
+  price: number;
+  quantity: number;
+  brand: string;
+  enModel: string;
+  arModel: string;
+  releaseDate: string;
+  modelNumber: string;
+  headPhoneEn: string;
+  headPhoneAr: string;
+  EnConnectivity: string;
+  ArConnectivity: string;
+  Enmicrophone: string;
+  Armicrophone: string;
+  enDriverType: string;
+  arDriverType: string;
+  numberOfDrivers: number;
+  enWaterResistant: string;
+  arWaterResistant: string;
+  weight: string;
+  driverSize: string;
+  batteryLife: string;
+}
+
+const headPhon = ref<HeadPhon | null>(null);
+const route = useRoute();
+const categoryId = route.query.categoryId as string;
+
+
 // const formatPrice = (price: number) => {
 //   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-// };
-const route = useRoute();
 const id = route.params.id;
 const counter = ref(1);
 const fetchDocument = async () => {
   try {
-    const docRef = doc(db, "headPhons", id.toString());
+    console.log("Fetching document with category ID:", categoryId, "and headPhon ID:", id);
+    const docRef = doc(db, "Categories", categoryId.toString(), "headPhons", id.toString());
+    console.log("Document reference:", docRef);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      headPhon.value = docSnap.data();
+      console.log("Document data:", docSnap.data());
+      headPhon.value = docSnap.data() as HeadPhon;
     } else {
       console.log("No such document!");
     }
   } catch (e) {
-    console.log(e);
+    console.error("Error fetching document:", e);
   }
 };
 onMounted(() => {
   fetchDocument();
-  console.log("helllo", headPhon.value);
-  console.log("noor");
-  console.log(id);
+  console.log(categoryId);
 });
 const plusCounter = () => {
   if (counter.value !== 10) {
     counter.value++;
-    headPhon.value.quantity = counter.value;
+    if (headPhon.value) {
+      if (headPhon.value) {
+        if (headPhon.value) {
+          headPhon.value.quantity = counter.value;
+        }
+      }
+    }
   }
 };
 const minusCounter = () => {
   if (counter.value > 0) {
     counter.value--;
-    headPhon.value.quantity = counter.value;
+    if (headPhon.value) {
+      headPhon.value.quantity = counter.value;
+    }
   }
 };
 </script>
@@ -54,12 +96,12 @@ const minusCounter = () => {
       <div
         class="bg-secondaryLight dark:bg-secondaryDark flex flex-col justify-center content-center p-2 rounded-xl"
       >
-        <img :src="headPhon.image" alt="" class="w-full" />
+        <img :src="headPhon?.image" alt="" class="w-full" />
       </div>
       <div class="flex w-full justify-between">
         <div
           class="w-[100px] bg-secondaryLight dark:bg-secondaryDark justify-center content-center p-2 rounded-xl"
-          v-for="image in headPhon.subImages"
+          v-for="image in headPhon?.subImages"
         >
           <img :src="image" alt="" />
         </div>
@@ -68,22 +110,22 @@ const minusCounter = () => {
     <!-- info -->
     <div class="dark:text-[#fff]">
       <div class="border-b flex flex-col space-y-2 py-2">
-        <h1 class="font-bold rtl:hidden">{{ headPhon.enTitle }}</h1>
-        <h1 class="font-bold hidden rtl:block">{{ headPhon.arTitle }}</h1>
-        <p class="rtl:hidden text-sm">{{ headPhon.enDescription }}</p>
-        <p class="hidden rtl:block text-sm">{{ headPhon.arDescription }}</p>
+        <h1 class="font-bold rtl:hidden">{{ headPhon?.enTitle }}</h1>
+        <h1 class="font-bold hidden rtl:block">{{ headPhon?.arTitle }}</h1>
+        <p class="rtl:hidden text-sm">{{ headPhon?.enDescription }}</p>
+        <p class="hidden rtl:block text-sm">{{ headPhon?.arDescription }}</p>
         <div class="flex">
           <v-icon
             icon="mdi-star"
             class="text-greenLight dark:text-greenDark"
-            v-for="i in headPhon.rate"
+            v-for="i in headPhon?.rate"
           ></v-icon>
         </div>
       </div>
       <div class="border-b flex flex-col space-y-2 py-2">
-        <h1 class="font-bold text-lg rtl:hidden">{{ headPhon.price }} IQD</h1>
+        <h1 class="font-bold text-lg rtl:hidden">{{ headPhon?.price }} IQD</h1>
         <h1 class="font-bold text-lg rtl:block hidden">
-          {{ headPhon.price }} د.ع
+          {{ headPhon?.price }} د.ع
         </h1>
       </div>
       <!-- <div class="border-b flex space-x-2 py-2 rtl:space-x-reverse">
@@ -100,7 +142,7 @@ const minusCounter = () => {
           <button @click="plusCounter">
             <v-icon icon="mdi-plus"> </v-icon>
           </button>
-          <p>{{ headPhon.quantity }}</p>
+          <p>{{ headPhon?.quantity }}</p>
           <button @click="minusCounter">
             <v-icon icon="mdi-minus"> </v-icon>
           </button>
@@ -112,7 +154,7 @@ const minusCounter = () => {
         >
           {{ $t("Buy Now") }}
         </button>
-        <AddToCart :product="headPhon" />
+        <AddToCart v-if="headPhon" :product="headPhon" />
       </div>
       <div class="py-2">
         <div class="flex space-x-2 items-center rtl:space-x-reverse">
@@ -137,47 +179,47 @@ const minusCounter = () => {
           class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Brand") }}</p>
-          <p>{{ headPhon.brand }}</p>
+          <p>{{ headPhon?.brand }}</p>
         </div>
         <div
           class="p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Model") }}</p>
-          <p class="hidden rtl:block">{{ headPhon.arModel }}</p>
-          <p class="rtl:hidden">{{ headPhon.enModel }}</p>
+          <p class="hidden rtl:block">{{ headPhon?.arModel }}</p>
+          <p class="rtl:hidden">{{ headPhon?.enModel }}</p>
         </div>
         <div
           class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Release Date") }}</p>
-          <p>{{ headPhon.releaseDate }}</p>
+          <p>{{ headPhon?.releaseDate }}</p>
         </div>
         <div
           class="p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Price") }}</p>
-          <p class="rtl:hidden">{{ headPhon.price }} IQD</p>
-          <p class="hidden rtl:block">{{ headPhon.price }} د.ع</p>
+          <p class="rtl:hidden">{{ headPhon?.price }} IQD</p>
+          <p class="hidden rtl:block">{{ headPhon?.price }} د.ع</p>
         </div>
         <div
           class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Model number") }}</p>
-          <p>{{ headPhon.modelNumber }}</p>
+          <p>{{ headPhon?.modelNumber }}</p>
         </div>
         <div
           class="p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Headphone") }}</p>
-          <p class="rtl:hidden">{{ headPhon.headPhoneEn }}</p>
-          <p class="hidden rtl:block">{{ headPhon.headPhoneAr }}</p>
+          <p class="rtl:hidden">{{ headPhon?.headPhoneEn }}</p>
+          <p class="hidden rtl:block">{{ headPhon?.headPhoneAr }}</p>
         </div>
         <div
           class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Connectivity") }}</p>
-          <p class="rtl:hidden">{{ headPhon.EnConnectivity }}</p>
-          <p class="hidden rtl:block">{{ headPhon.ArConnectivity }}</p>
+          <p class="rtl:hidden">{{ headPhon?.EnConnectivity }}</p>
+          <p class="hidden rtl:block">{{ headPhon?.ArConnectivity }}</p>
         </div>
       </div>
     </div>
@@ -191,46 +233,46 @@ const minusCounter = () => {
           class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Microphone") }}</p>
-          <p class="rtl:hidden">{{ headPhon.Enmicrophone }}</p>
-          <p class="hidden rtl:block">{{ headPhon.Armicrophone }}</p>
+          <p class="rtl:hidden">{{ headPhon?.Enmicrophone }}</p>
+          <p class="hidden rtl:block">{{ headPhon?.Armicrophone }}</p>
         </div>
         <div
           class="p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Driver Type") }}</p>
-          <p class="hidden rtl:block">{{ headPhon.arDriverType }}</p>
-          <p class="rtl:hidden">{{ headPhon.enDriverType }}</p>
+          <p class="hidden rtl:block">{{ headPhon?.arDriverType }}</p>
+          <p class="rtl:hidden">{{ headPhon?.enDriverType }}</p>
         </div>
         <div
           class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Number of drivers") }}</p>
-          <p>{{ headPhon.numberOfDrivers }}</p>
+          <p>{{ headPhon?.numberOfDrivers }}</p>
         </div>
         <div
           class="p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Water Resistant") }}</p>
-          <p class="rtl:hidden">{{ headPhon.enWaterResistant }}</p>
-          <p class="hidden rtl:block">{{ headPhon.arWaterResistant }}</p>
+          <p class="rtl:hidden">{{ headPhon?.enWaterResistant }}</p>
+          <p class="hidden rtl:block">{{ headPhon?.arWaterResistant }}</p>
         </div>
         <div
           class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Weight (g)") }}</p>
-          <p>{{ headPhon.weight }}</p>
+          <p>{{ headPhon?.weight }}</p>
         </div>
         <div
           class="p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Driver size") }}</p>
-          <p>{{ headPhon.driverSize }}</p>
+          <p>{{ headPhon?.driverSize }}</p>
         </div>
         <div
           class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Battery Life (Hrs)") }}</p>
-          <p>{{ headPhon.batteryLife }}</p>
+          <p>{{ headPhon?.batteryLife }}</p>
         </div>
       </div>
     </div>

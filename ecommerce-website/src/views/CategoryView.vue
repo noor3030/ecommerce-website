@@ -178,7 +178,11 @@ const totalPages = computed(() => {
       <router-link
         v-for="headPhon in filteredHeadPhons"
         :key="headPhon.id"
-        :to="`/product/${headPhon.id}`"
+        :to="{
+          name: 'product',
+          params: { id: headPhon.id },
+          query: { categoryId: id },
+        }"
       >
         <ProductCard :product="headPhon" :ifShow="true" />
       </router-link>
