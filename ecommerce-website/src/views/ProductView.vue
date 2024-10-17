@@ -1,15 +1,50 @@
 <script setup lang="ts">
+import AddToCart from "@/components/AddToCart.vue";
 import Products from "@/components/Products.vue";
 import { ref } from "vue";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
-const route = useRoute();
+import { db } from "@/includes/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
-const headPhon = JSON.parse(route.query.headPhon as string);
-const formatPrice = (price: number) => {
-  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-};
+const headPhon = ref<Record<string, any>>({});
+// const formatPrice = (price: number) => {
+//   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+// };
+const route = useRoute();
+const id = route.params.id;
 const counter = ref(1);
+const fetchDocument = async () => {
+  try {
+    const docRef = doc(db, "headPhons", id.toString());
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      headPhon.value = docSnap.data();
+    } else {
+      console.log("No such document!");
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};
+onMounted(() => {
+  fetchDocument();
+  console.log("helllo", headPhon.value);
+  console.log("noor");
+  console.log(id);
+});
+const plusCounter = () => {
+  if (counter.value !== 10) {
+    counter.value++;
+    headPhon.value.quantity = counter.value;
+  }
+};
+const minusCounter = () => {
+  if (counter.value > 0) {
+    counter.value--;
+    headPhon.value.quantity = counter.value;
+  }
+};
 </script>
 
 <template>
@@ -46,38 +81,38 @@ const counter = ref(1);
         </div>
       </div>
       <div class="border-b flex flex-col space-y-2 py-2">
-        <h1 class="font-bold text-lg rtl:hidden">
-          {{ formatPrice(headPhon.price) }} IQD
-        </h1>
+        <h1 class="font-bold text-lg rtl:hidden">{{ headPhon.price }} IQD</h1>
         <h1 class="font-bold text-lg rtl:block hidden">
-          {{ formatPrice(headPhon.price) }} د.ع
+          {{ headPhon.price }} د.ع
         </h1>
       </div>
-      <div class="border-b flex space-x-2 py-2 rtl:space-x-reverse">
+      <!-- <div class="border-b flex space-x-2 py-2 rtl:space-x-reverse">
         <div
           v-for="color in headPhon.colors"
           class="pa-5 rounded-full"
           :style="{ backgroundColor: color }"
         ></div>
-      </div>
+      </div> -->
       <div class="border-b py-2">
         <div
           class="bg-secondaryLight dark:bg-secondaryDark text-onSecondaryLight dark:text-onSecondaryDark rounded-3xl p-2 w-fit flex space-x-4 px-4 rtl:space-x-reverse"
         >
-          <v-icon icon="mdi-plus"> </v-icon>
-          <p>{{ counter }}</p>
-          <v-icon icon="mdi-minus"> </v-icon>
+          <button @click="plusCounter">
+            <v-icon icon="mdi-plus"> </v-icon>
+          </button>
+          <p>{{ headPhon.quantity }}</p>
+          <button @click="minusCounter">
+            <v-icon icon="mdi-minus"> </v-icon>
+          </button>
         </div>
       </div>
       <div class="border-b py-2 flex space-x-4 rtl:space-x-reverse">
         <button
-          class="bg-primaryLight dark:bg-primaryDark text-[#fff] dark:text-[#000] rounded-xl p-2 px-4"
+          class="bg-primaryLight dark:bg-primaryDark text-[#fff] dark:text-[#000] rounded-xl p-2 px-4 text-sm"
         >
           {{ $t("Buy Now") }}
         </button>
-        <button class="rounded-xl p-2 px-4" style="border: 1px solid">
-          {{ $t("Add to Cart") }}
-        </button>
+        <AddToCart :product="headPhon" />
       </div>
       <div class="py-2">
         <div class="flex space-x-2 items-center rtl:space-x-reverse">
@@ -121,8 +156,8 @@ const counter = ref(1);
           class="p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Price") }}</p>
-          <p class="rtl:hidden">{{ formatPrice(headPhon.price) }} IQD</p>
-          <p class="hidden rtl:block">{{ formatPrice(headPhon.price) }} د.ع</p>
+          <p class="rtl:hidden">{{ headPhon.price }} IQD</p>
+          <p class="hidden rtl:block">{{ headPhon.price }} د.ع</p>
         </div>
         <div
           class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"

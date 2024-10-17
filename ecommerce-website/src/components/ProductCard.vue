@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import AddToCart from "./AddToCart.vue";
 
 const props = defineProps<{
   product: {
@@ -66,11 +67,6 @@ const formatPrice = (price: number) => {
         v-for="i in product.rate"
       ></v-icon>
     </div>
-    <button
-      class="text-[#000] dark:text-[#fff] rounded-3xl p-2.5 text-sm"
-      style="border: 1px solid"
-    >
-      {{ $t("Add to Cart") }}
-    </button>
+   <AddToCart :product="product"/>
   </div>
 </template>

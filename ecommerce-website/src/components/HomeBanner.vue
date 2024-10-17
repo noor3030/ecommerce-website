@@ -14,8 +14,14 @@
 
     <button
       class="bg-primaryLight w-fit self-center p-2 rounded-3xl px-4 dark:bg-primaryDark text-[#fff] dark:text-black"
+      @print="print"
     >
       {{ $t("learnMore") }}
     </button>
   </div>
 </template>
+<script setup lang="ts">
+const print = () => {
+  console.log("print");
+};
+</script>

@@ -2,12 +2,21 @@
 import ProductsFilters from "@/components/ProductsFilters.vue";
 import { ref } from "vue";
 import { onMounted, computed } from "vue";
-import { QuerySnapshot, collection, getDocs } from "firebase/firestore";
+import {
+  QuerySnapshot,
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import type { DocumentData } from "firebase/firestore";
-import { categories } from "@/includes/firebase";
 import ProductCard from "@/components/ProductCard.vue";
 import Services from "@/components/Services.vue";
 import Products from "@/components/Products.vue";
+import { db } from "@/includes/firebase";
+import { useRoute } from "vue-router";
+const route = useRoute();
+const id = route.params.id;
 const filters = ref([
   {
     enName: "Price",
@@ -112,18 +121,25 @@ const page = ref(1);
 const perPage = ref(2);
 
 onMounted(async () => {
-  const HeadPhonsDate: QuerySnapshot<DocumentData> = await getDocs(categories);
-  for (const doc of HeadPhonsDate.docs) {
-    const subCollectionRef = collection(doc.ref, "headPhons");
-    const subCollectionData: QuerySnapshot<DocumentData> = await getDocs(
-      subCollectionRef
-    );
-    const subCollectionItems = subCollectionData.docs.map((subDoc) => ({
-      id: subDoc.id,
-      ...subDoc.data(),
-    }));
+  try {
+    const docRef = doc(db, "Categories", id.toString());
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const subCollectionRef = collection(docRef, "headPhons");
+      const subCollectionData: QuerySnapshot<DocumentData> = await getDocs(
+        subCollectionRef
+      );
+      const subCollectionItems = subCollectionData.docs.map((subDoc) => ({
+        id: subDoc.id,
+        ...subDoc.data(),
+      }));
 
-    headPhonsList.value = [...headPhonsList.value, ...subCollectionItems];
+      headPhonsList.value = subCollectionItems;
+    } else {
+      console.log("No such document!");
+    }
+  } catch (error) {
+    console.error("Error fetching document:", error);
   }
 });
 
@@ -159,16 +175,13 @@ const totalPages = computed(() => {
       <h1 class="dark:text-white text-xl text-center">
         {{ $t("HeadPhons For You") }}
       </h1>
-      <div v-for="headPhon in filteredHeadPhons" :key="headPhon.id">
-        <router-link
-          :to="{
-            name: 'product',
-            query: { headPhon: JSON.stringify(headPhon) },
-          }"
-        >
-          <ProductCard :product="headPhon" :ifShow="true" />
-        </router-link>
-      </div>
+      <router-link
+        v-for="headPhon in filteredHeadPhons"
+        :key="headPhon.id"
+        :to="`/product/${headPhon.id}`"
+      >
+        <ProductCard :product="headPhon" :ifShow="true" />
+      </router-link>
       <v-pagination
         v-model="page"
         :length="totalPages"
@@ -188,7 +201,7 @@ const totalPages = computed(() => {
       ></v-pagination>
     </section>
 
-    <Products :title="$t('Weekly Popular Products')"/>
+    <Products :title="$t('Weekly Popular Products')" />
     <Services />
   </div>
 </template>
