@@ -4,58 +4,30 @@ import Products from "@/components/Products.vue";
 import { ref } from "vue";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { db, headPhons } from "@/includes/firebase";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { db } from "@/includes/firebase";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
-interface HeadPhon {
-  image: string;
-  subImages: string[];
-  enTitle: string;
-  arTitle: string;
-  enDescription: string;
-  arDescription: string;
-  rate: number;
-  price: number;
-  quantity: number;
-  brand: string;
-  enModel: string;
-  arModel: string;
-  releaseDate: string;
-  modelNumber: string;
-  headPhoneEn: string;
-  headPhoneAr: string;
-  EnConnectivity: string;
-  ArConnectivity: string;
-  Enmicrophone: string;
-  Armicrophone: string;
-  enDriverType: string;
-  arDriverType: string;
-  numberOfDrivers: number;
-  enWaterResistant: string;
-  arWaterResistant: string;
-  weight: string;
-  driverSize: string;
-  batteryLife: string;
-}
-
-const headPhon = ref<HeadPhon | null>(null);
+const headPhon = ref<any | null>(null);
 const route = useRoute();
 const categoryId = route.query.categoryId as string;
 
-
-// const formatPrice = (price: number) => {
-//   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+const formatPrice = (price: number) => {
+  return typeof price === 'number' ? price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '';
+};
 const id = route.params.id;
 const counter = ref(1);
 const fetchDocument = async () => {
   try {
-    console.log("Fetching document with category ID:", categoryId, "and headPhon ID:", id);
-    const docRef = doc(db, "Categories", categoryId.toString(), "headPhons", id.toString());
-    console.log("Document reference:", docRef);
+    const docRef = doc(
+      db,
+      "Categories",
+      categoryId.toString(),
+      "headPhons",
+      id.toString()
+    );
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      headPhon.value = docSnap.data() as HeadPhon;
+      headPhon.value = docSnap.data();
     } else {
       console.log("No such document!");
     }
@@ -67,23 +39,33 @@ onMounted(() => {
   fetchDocument();
   console.log(categoryId);
 });
+
+const updateQuantity = async (newQuantity: number) => {
+  try {
+    const docRef = doc(db, "Categories", categoryId, "headPhons", id.toString());
+    await updateDoc(docRef, { quantity: newQuantity });
+    console.log("Quantity updated successfully");
+  } catch (e) {
+    console.error("Error updating quantity:", e);
+  }
+};
+
 const plusCounter = () => {
   if (counter.value !== 10) {
     counter.value++;
     if (headPhon.value) {
-      if (headPhon.value) {
-        if (headPhon.value) {
-          headPhon.value.quantity = counter.value;
-        }
-      }
+      headPhon.value.quantity = counter.value;
+      updateQuantity(counter.value); // Update quantity in Firestore
     }
   }
 };
+
 const minusCounter = () => {
   if (counter.value > 0) {
     counter.value--;
     if (headPhon.value) {
       headPhon.value.quantity = counter.value;
+      updateQuantity(counter.value); // Update quantity in Firestore
     }
   }
 };
@@ -123,9 +105,11 @@ const minusCounter = () => {
         </div>
       </div>
       <div class="border-b flex flex-col space-y-2 py-2">
-        <h1 class="font-bold text-lg rtl:hidden">{{ headPhon?.price }} IQD</h1>
+        <h1 class="font-bold text-lg rtl:hidden">
+          {{ formatPrice(headPhon?.price) }} IQD
+        </h1>
         <h1 class="font-bold text-lg rtl:block hidden">
-          {{ headPhon?.price }} د.ع
+          {{ formatPrice(headPhon?.price) }} د.ع
         </h1>
       </div>
       <!-- <div class="border-b flex space-x-2 py-2 rtl:space-x-reverse">
@@ -198,8 +182,8 @@ const minusCounter = () => {
           class="p-1 rounded-lg flex justify-between w-full content-between px-2"
         >
           <p>{{ $t("Price") }}</p>
-          <p class="rtl:hidden">{{ headPhon?.price }} IQD</p>
-          <p class="hidden rtl:block">{{ headPhon?.price }} د.ع</p>
+          <p class="rtl:hidden">{{ formatPrice(headPhon?.price) }} IQD</p>
+          <p class="hidden rtl:block">{{ formatPrice(headPhon?.price) }} د.ع</p>
         </div>
         <div
           class="bg-[#fff] dark:bg-[#000] p-1 rounded-lg flex justify-between w-full content-between px-2"
