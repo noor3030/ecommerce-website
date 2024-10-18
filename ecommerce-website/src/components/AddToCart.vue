@@ -32,7 +32,7 @@ const props = defineProps({
 async function setCart(product: any) {
   await setDoc(doc(db, "cart", product.id), {
     product: product,
-    quantity: 1,
+    quantity: product.quantity,
   });
 }
 </script>

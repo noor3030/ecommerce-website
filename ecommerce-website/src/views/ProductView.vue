@@ -112,13 +112,7 @@ const minusCounter = () => {
           {{ formatPrice(headPhon?.price) }} د.ع
         </h1>
       </div>
-      <!-- <div class="border-b flex space-x-2 py-2 rtl:space-x-reverse">
-        <div
-          v-for="color in headPhon.colors"
-          class="pa-5 rounded-full"
-          :style="{ backgroundColor: color }"
-        ></div>
-      </div> -->
+   
       <div class="border-b py-2">
         <div
           class="bg-secondaryLight dark:bg-secondaryDark text-onSecondaryLight dark:text-onSecondaryDark rounded-3xl p-2 w-fit flex space-x-4 px-4 rtl:space-x-reverse"
