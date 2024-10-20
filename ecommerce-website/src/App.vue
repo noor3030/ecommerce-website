@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { initFlowbite } from "flowbite";
-import { onMounted, computed } from "vue";
+import { onMounted, computed ,ref} from "vue";
 import { useI18n } from "vue-i18n";
 import Footer from "./components/Footer.vue";
 import Navbar from "./components/Navbar.vue";

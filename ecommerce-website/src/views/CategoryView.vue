@@ -183,6 +183,7 @@ const totalPages = computed(() => {
           params: { id: headPhon.id },
           query: { categoryId: id },
         }"
+          class="flex flex-col space-y-4"
       >
         <ProductCard :product="headPhon" :ifShow="true" />
       </router-link>

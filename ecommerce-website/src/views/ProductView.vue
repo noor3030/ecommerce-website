@@ -5,14 +5,17 @@ import { ref } from "vue";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { db } from "@/includes/firebase";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
 
 const headPhon = ref<any | null>(null);
+const category = ref<any | null>(null);
 const route = useRoute();
 const categoryId = route.query.categoryId as string;
 
 const formatPrice = (price: number) => {
-  return typeof price === 'number' ? price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '';
+  return typeof price === "number"
+    ? price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    : "";
 };
 const id = route.params.id;
 const counter = ref(1);
@@ -26,23 +29,24 @@ const fetchDocument = async () => {
       id.toString()
     );
     const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      headPhon.value = docSnap.data();
-    } else {
-      console.log("No such document!");
-    }
+    headPhon.value = docSnap.data();
   } catch (e) {
     console.error("Error fetching document:", e);
   }
 };
-onMounted(() => {
-  fetchDocument();
-  console.log(categoryId);
+onMounted(async () => {
+  await fetchDocument();
 });
 
 const updateQuantity = async (newQuantity: number) => {
   try {
-    const docRef = doc(db, "Categories", categoryId, "headPhons", id.toString());
+    const docRef = doc(
+      db,
+      "Categories",
+      categoryId,
+      "headPhons",
+      id.toString()
+    );
     await updateDoc(docRef, { quantity: newQuantity });
     console.log("Quantity updated successfully");
   } catch (e) {
@@ -53,22 +57,25 @@ const updateQuantity = async (newQuantity: number) => {
 const plusCounter = () => {
   if (counter.value !== 10) {
     counter.value++;
-    if (headPhon.value) {
-      headPhon.value.quantity = counter.value;
-      updateQuantity(counter.value); // Update quantity in Firestore
-    }
+    headPhon.value.quantity = counter.value;
+    updateQuantity(counter.value);
   }
 };
 
 const minusCounter = () => {
-  if (counter.value > 0) {
+  if (counter.value > 1) {
     counter.value--;
-    if (headPhon.value) {
-      headPhon.value.quantity = counter.value;
-      updateQuantity(counter.value); // Update quantity in Firestore
-    }
+    headPhon.value.quantity = counter.value;
+    updateQuantity(counter.value);
   }
 };
+
+async function setCart(product: any) {
+  await setDoc(doc(db, "cart", id.toString()), {
+    product: product,
+    quantity: product.quantity ? product.quantity + 1 : 1,
+  });
+}
 </script>
 
 <template>
@@ -112,7 +119,7 @@ const minusCounter = () => {
           {{ formatPrice(headPhon?.price) }} د.ع
         </h1>
       </div>
-   
+
       <div class="border-b py-2">
         <div
           class="bg-secondaryLight dark:bg-secondaryDark text-onSecondaryLight dark:text-onSecondaryDark rounded-3xl p-2 w-fit flex space-x-4 px-4 rtl:space-x-reverse"
@@ -132,7 +139,16 @@ const minusCounter = () => {
         >
           {{ $t("Buy Now") }}
         </button>
-        <AddToCart v-if="headPhon" :product="headPhon" />
+        <div>
+          <button
+            v-if="headPhon"
+            class="text-[#000] dark:text-[#fff] rounded-3xl p-2.5 text-sm"
+            style="border: 1px solid"
+            @click="setCart(headPhon)"
+          >
+            {{ $t("Add to Cart") }}
+          </button>
+        </div>
       </div>
       <div class="py-2">
         <div class="flex space-x-2 items-center rtl:space-x-reverse">
