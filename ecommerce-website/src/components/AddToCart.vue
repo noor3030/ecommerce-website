@@ -11,7 +11,6 @@ const props = defineProps({
 async function setCart(product2: any) {
   await setDoc(doc(db, "cart", product2.id), {
     product: product2,
-    quantity: product2.quantity ? product2.quantity + 1 : 1,
   });
 }
 onMounted(() => {

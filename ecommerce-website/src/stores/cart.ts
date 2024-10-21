@@ -1,38 +1,28 @@
 import { defineStore } from "pinia";
-
+import { db } from "@/includes/firebase";
+import { doc, updateDoc } from "firebase/firestore";
 export const useCartStore = defineStore({
   id: "cart",
-  state: () => {
-    return {
-      cartList: [] as any[],
-      isInCart: false,
-    };
-  },
   actions: {
-    addToCart(item: any) {
-      this.cartList.push(item);
-      localStorage.setItem("cart", JSON.stringify(this.cartList));
-      this.isInCart = true;
+    async updateQuantity(
+      newQuantity: number,
+      categoryId: any,
+      itemId: any,
+      categoryName: any
+    ) {
+      try {
+        const docRef = doc(
+          db,
+          "Categories",
+          categoryId,
+          categoryName,
+          itemId.toString()
+        );
+        await updateDoc(docRef, { quantity: newQuantity });
+        console.log("Quantity updated successfully");
+      } catch (e) {
+        console.error("Error updating quantity:", e);
+      }
     },
-    removeFromCart(item: any) {
-      const index = this.cartList.findIndex(
-        (selectedItem) => selectedItem.id === item.id
-      );
-      this.cartList.splice(index, 1);
-      localStorage.setItem("cart", JSON.stringify(this.cartList));
-      this.isInCart = false;
-    },
-    clearCart() {
-      this.cartList = [];
-      localStorage.setItem("cart", JSON.stringify(this.cartList));
-    },
-  },
-  getters: {
-    getCartList():any[] {
-      return this.cartList;
-    },
-    getIsInCart():boolean {
-      return this.isInCart;
-    }
   },
 });

@@ -79,7 +79,7 @@ window.addEventListener("scroll", () => {
         <li>{{ $t("Deals") }}</li>
         <li>{{ $t("What's New") }}</li>
         <li>{{ $t("Delivery") }}</li>
-        <li>{{ $t("Cart") }}</li>
+     <router-link to="/cart"><li>{{ $t("Cart") }}</li></router-link>   
         <li>{{ $t("Account") }}</li>
         <li>{{ $t("Contact") }}</li>
       </ul>

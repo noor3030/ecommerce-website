@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import AddToCart from "@/components/AddToCart.vue";
 import Products from "@/components/Products.vue";
 import { ref } from "vue";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { db } from "@/includes/firebase";
 import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
+import { useCartStore } from "@/stores/cart";
 
 const headPhon = ref<any | null>(null);
-const category = ref<any | null>(null);
 const route = useRoute();
 const categoryId = route.query.categoryId as string;
 
@@ -38,27 +37,14 @@ onMounted(async () => {
   await fetchDocument();
 });
 
-const updateQuantity = async (newQuantity: number) => {
-  try {
-    const docRef = doc(
-      db,
-      "Categories",
-      categoryId,
-      "headPhons",
-      id.toString()
-    );
-    await updateDoc(docRef, { quantity: newQuantity });
-    console.log("Quantity updated successfully");
-  } catch (e) {
-    console.error("Error updating quantity:", e);
-  }
-};
+const cartStore = useCartStore();
+const updateQuantity = cartStore.updateQuantity;
 
 const plusCounter = () => {
   if (counter.value !== 10) {
     counter.value++;
     headPhon.value.quantity = counter.value;
-    updateQuantity(counter.value);
+    updateQuantity(counter.value, categoryId, "headPhons", id);
   }
 };
 
@@ -66,14 +52,13 @@ const minusCounter = () => {
   if (counter.value > 1) {
     counter.value--;
     headPhon.value.quantity = counter.value;
-    updateQuantity(counter.value);
+    updateQuantity(counter.value, categoryId, "headPhons", id);
   }
 };
 
 async function setCart(product: any) {
   await setDoc(doc(db, "cart", id.toString()), {
     product: product,
-    quantity: product.quantity ? product.quantity + 1 : 1,
   });
 }
 </script>
