@@ -4,10 +4,10 @@ import { cart } from "@/includes/firebase";
 import { QuerySnapshot, getDocs } from "firebase/firestore";
 import type { DocumentData } from "firebase/firestore";
 import { db } from "@/includes/firebase";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
+
 const cartList = ref<DocumentData[]>([]);
-const cartItems = ref<{ image: string }[]>([]);
-const quantity = ref(1);
+const counter = ref(1);
 
 const getCartItems = async () => {
   const cartData: QuerySnapshot<DocumentData> = await getDocs(cart);
@@ -17,35 +17,40 @@ const getCartItems = async () => {
       ...doc.data().product,
     });
   });
-
-};
-
-
-onMounted(async () => {
-  await getCartItems();
-  for (const item of cartList.value) {
-    console.log(item.product);
-    cartItems.value.push(item.product);
-    console.log("items", cartItems.value);
-    for (const cartItem of cartItems.value) {
-      console.log("image", cartItem.image);
-    }
-  }
-});
-const formatPrice = (price: number) => {
-  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 const updateQuantity = async (item: any) => {
   try {
     const docRef = doc(db, "cart", item.id);
-    await updateDoc(docRef, { quantity: item.quantity + 1 });
-    
+    await updateDoc(docRef, { "product.quantity": item.quantity });
   } catch (e) {
     console.error("Error updating document:", e);
   }
 };
 
+const plusCounter = async (item: any) => {
+  const cartItem = cartList.value.find((i) => i.id === item.id);
+  if (cartItem && cartItem.quantity < 10) {
+    cartItem.quantity++;
+    await updateQuantity(cartItem);
+  }
+};
+
+const minusCounter = async (item: any) => {
+  const cartItem = cartList.value.find((i) => i.id === item.id);
+  if (cartItem && cartItem.quantity > 1) {
+    cartItem.quantity--;
+    await updateQuantity(cartItem);
+  }
+};
+
+onMounted(() => {
+  getCartItems();
+});
+
+const formatPrice = (price: number) => {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 </script>
 
 <template>
@@ -55,6 +60,7 @@ const updateQuantity = async (item: any) => {
     <div class="flex flex-col space-y-2">
       <div
         v-for="item in cartList"
+        :key="item.id"
         style="border: 1px solid; border-color: gray"
         class="rounded-2xl p-4 flex"
       >
@@ -76,11 +82,11 @@ const updateQuantity = async (item: any) => {
             <div
               class="bg-secondaryLight dark:bg-secondaryDark text-onSecondaryLight dark:text-onSecondaryDark rounded-3xl p-2 w-fit flex space-x-4 px-4 rtl:space-x-reverse"
             >
-              <button @click="updateQuantity(item)">
+              <button @click="plusCounter(item)">
                 <v-icon icon="mdi-plus"> </v-icon>
               </button>
               <p>{{ item.quantity }}</p>
-              <button @click="item.quantity--">
+              <button @click="minusCounter(item)">
                 <v-icon icon="mdi-minus"> </v-icon>
               </button>
             </div>
