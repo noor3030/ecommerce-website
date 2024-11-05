@@ -4,8 +4,8 @@ import { ref } from "vue";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { db } from "@/includes/firebase";
-import { doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
-import { useCartStore } from "@/stores/cart";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { updateDoc } from "firebase/firestore";
 
 const headPhon = ref<any | null>(null);
 const route = useRoute();
@@ -16,8 +16,10 @@ const formatPrice = (price: number) => {
     ? price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     : "";
 };
+
 const id = route.params.id;
 const counter = ref(1);
+
 const fetchDocument = async () => {
   try {
     const docRef = doc(
@@ -29,30 +31,45 @@ const fetchDocument = async () => {
     );
     const docSnap = await getDoc(docRef);
     headPhon.value = docSnap.data();
+    if (headPhon.value && headPhon.value.quantity) {
+      counter.value = headPhon.value.quantity;
+    }
   } catch (e) {
     console.error("Error fetching document:", e);
   }
 };
+
 onMounted(async () => {
   await fetchDocument();
 });
 
-const cartStore = useCartStore();
-const updateQuantity = cartStore.updateQuantity;
+const updateQuantity = async () => {
+  try {
+    const docRef = doc(
+      db,
+      "Categories",
+      categoryId.toString(),
+      "headPhons",
+      id.toString()
+    );
+    await updateDoc(docRef, { quantity: counter.value });
+    console.log("Quantity updated to:", counter.value);
+  } catch (e) {
+    console.error("Error updating document:", e);
+  }
+};
 
 const plusCounter = () => {
   if (counter.value !== 10) {
     counter.value++;
-    headPhon.value.quantity = counter.value;
-    updateQuantity(counter.value, categoryId, "headPhons", id);
+    updateQuantity();
   }
 };
 
 const minusCounter = () => {
   if (counter.value > 1) {
     counter.value--;
-    headPhon.value.quantity = counter.value;
-    updateQuantity(counter.value, categoryId, "headPhons", id);
+    updateQuantity();
   }
 };
 
@@ -112,7 +129,7 @@ async function setCart(product: any) {
           <button @click="plusCounter">
             <v-icon icon="mdi-plus"> </v-icon>
           </button>
-          <p>{{ headPhon?.quantity }}</p>
+          <p>{{ counter }}</p>
           <button @click="minusCounter">
             <v-icon icon="mdi-minus"> </v-icon>
           </button>

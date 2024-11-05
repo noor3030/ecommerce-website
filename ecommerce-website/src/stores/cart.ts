@@ -24,5 +24,6 @@ export const useCartStore = defineStore({
         console.error("Error updating quantity:", e);
       }
     },
+ 
   },
 });

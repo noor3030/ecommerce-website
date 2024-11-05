@@ -3,10 +3,11 @@ import { onMounted, ref } from "vue";
 import { cart } from "@/includes/firebase";
 import { QuerySnapshot, getDocs } from "firebase/firestore";
 import type { DocumentData } from "firebase/firestore";
-
+import { db } from "@/includes/firebase";
+import { doc, updateDoc } from "firebase/firestore";
 const cartList = ref<DocumentData[]>([]);
 const cartItems = ref<{ image: string }[]>([]);
-const cartTotal = ref(0);
+const quantity = ref(1);
 
 const getCartItems = async () => {
   const cartData: QuerySnapshot<DocumentData> = await getDocs(cart);
@@ -16,7 +17,9 @@ const getCartItems = async () => {
       ...doc.data().product,
     });
   });
+
 };
+
 
 onMounted(async () => {
   await getCartItems();
@@ -32,6 +35,17 @@ onMounted(async () => {
 const formatPrice = (price: number) => {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+const updateQuantity = async (item: any) => {
+  try {
+    const docRef = doc(db, "cart", item.id);
+    await updateDoc(docRef, { quantity: item.quantity + 1 });
+    
+  } catch (e) {
+    console.error("Error updating document:", e);
+  }
+};
+
 </script>
 
 <template>
@@ -59,6 +73,17 @@ const formatPrice = (price: number) => {
             </h1>
             <p class="rtl:hidden">{{ formatPrice(item.price) }} IQD</p>
             <p class="rtl:block hidden">{{ formatPrice(item.price) }} د.ع</p>
+            <div
+              class="bg-secondaryLight dark:bg-secondaryDark text-onSecondaryLight dark:text-onSecondaryDark rounded-3xl p-2 w-fit flex space-x-4 px-4 rtl:space-x-reverse"
+            >
+              <button @click="updateQuantity(item)">
+                <v-icon icon="mdi-plus"> </v-icon>
+              </button>
+              <p>{{ item.quantity }}</p>
+              <button @click="item.quantity--">
+                <v-icon icon="mdi-minus"> </v-icon>
+              </button>
+            </div>
           </div>
         </div>
       </div>
