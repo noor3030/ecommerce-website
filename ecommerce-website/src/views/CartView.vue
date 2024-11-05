@@ -4,10 +4,9 @@ import { cart } from "@/includes/firebase";
 import { QuerySnapshot, getDocs } from "firebase/firestore";
 import type { DocumentData } from "firebase/firestore";
 import { db } from "@/includes/firebase";
-import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 
 const cartList = ref<DocumentData[]>([]);
-const counter = ref(1);
 
 const getCartItems = async () => {
   const cartData: QuerySnapshot<DocumentData> = await getDocs(cart);
