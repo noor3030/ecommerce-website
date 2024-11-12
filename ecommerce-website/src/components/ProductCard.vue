@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import AddToCart from "./AddToCart.vue";
+import AddToCart from "./cart/AddToCart.vue";
 
 const props = defineProps<{
   product: {
