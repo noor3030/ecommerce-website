@@ -4,12 +4,12 @@ import BestDeals from "@/components/BestDeals.vue";
 import Brands from "@/components/Brands.vue";
 import Advertisements from "@/components/Advertisements.vue";
 import Discounts from "@/components/Discounts.vue";
-import Services from "@/components/services.vue";
-import HomeBanner from "@/components/HomeBanner.vue";
+import Services from "@/components/Services.vue";
+import HomeBanner from "@/components/home/HomeBanner.vue";
 </script>
 
 <template>
-  <div class="flex flex-col space-y-20">
+  <div class="flex flex-col space-y-16">
     <HomeBanner />
 
     <HomeCategories />

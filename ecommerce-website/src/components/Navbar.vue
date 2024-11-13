@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import ThemeSwitcher from "./ThemeSwitcher.vue";
 import LanguageSwitcher from "./LanguageSwitcher.vue";
-import { ref } from "vue";
 import Logo from "./Logo.vue";
+import { useI18n } from "vue-i18n";
 
 window.addEventListener("scroll", () => {
   const navbar = document.getElementById("navbar");
@@ -14,6 +14,15 @@ window.addEventListener("scroll", () => {
     }
   }
 });
+const { t } = useI18n();
+
+const pages = [
+  { name: t("Home"), path: "/" },
+  { name: t("Categories"), path: "/categories" },
+  { name: t("Cart"), path: "/cart" },
+  { name: t("Account"), path: "/account" },
+  { name: t("Delivery"), path: "/checkout" },
+];
 </script>
 
 <template>
@@ -51,10 +60,7 @@ window.addEventListener("scroll", () => {
         aria-controls="drawer-navigation"
         class="self-end"
       >
-        <v-icon
-          icon="mdi-close"
-          class="text-2xl dark:text-[#ffff]"
-        ></v-icon>
+        <v-icon icon="mdi-close" class="text-2xl dark:text-[#ffff]"></v-icon>
       </button>
 
       <form class="max-w-md mx-auto">
@@ -75,13 +81,9 @@ window.addEventListener("scroll", () => {
       </form>
 
       <ul class="flex flex-col space-y-4 text-[#000] dark:text-[#ffff]">
-        <li>{{ $t("Categories") }}</li>
-        <li>{{ $t("Deals") }}</li>
-        <li>{{ $t("What's New") }}</li>
-        <li>{{ $t("Delivery") }}</li>
-     <router-link to="/cart"><li>{{ $t("Cart") }}</li></router-link>   
-        <li>{{ $t("Account") }}</li>
-        <li>{{ $t("Contact") }}</li>
+        <li v-for="page in pages">
+          <router-link :to="page.path">{{ page.name }}</router-link>
+        </li>
       </ul>
 
       <ThemeSwitcher />
