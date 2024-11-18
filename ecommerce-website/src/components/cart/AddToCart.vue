@@ -21,7 +21,7 @@ onMounted(() => {
 <template>
   <div>
     <button
-      class="text-[#000] dark:text-[#fff] rounded-3xl p-2.5 text-sm"
+      class="text-[#000] dark:text-[#fff] rounded-3xl p-1.5 text-sm"
       style="border: 1px solid"
       @click="setCart(props.product)"
     >

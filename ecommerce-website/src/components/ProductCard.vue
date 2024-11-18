@@ -15,58 +15,60 @@ const formatPrice = (price: number) => {
 </script>
 
 <template>
-  <div>
-    <div class="bg-secondaryLight dark:bg-secondaryDark rounded-xl p-4 flex">
+  <div class="w-11/12 lex flex-col space-y-1 ">
+    <div class="bg-secondaryLight dark:bg-secondaryDark rounded-xl p-4 flex flex-col ">
       <div>
         <v-icon icon="mdi-heart-outline" class="dark:text-[#fff]"></v-icon>
       </div>
-      <img :src="product.image" alt="" class="w-10/12 self-center" />
+      <img :src="product.image" alt="" class="w-full self-center" />
     </div>
     <div>
       <div
-        class="flex text-[#000] dark:text-[#fff] justify-between items-center pt-4 pb-1"
+        class="flex flex-col text-[#000] dark:text-[#fff]  pt-4 space-y-1"
       >
-        <h2 class="rtl:hidden font-bold text-xl">
+        <h2 class="rtl:hidden font-bold text-sm">
           {{ product.enTitle }}
         </h2>
         <h2 class="hidden rtl:block font-bold text-xl">
           {{ product.arTitle }}
         </h2>
-        <h2 class="font-bold text-xl rtl:block hidden">
+        <h2 class="font-bold text-sm rtl:block hidden">
           {{ formatPrice(product.price) }} د.ع
         </h2>
-        <h2 class="font-bold text-xl rtl:hidden">
+        <h2 class="font-bold text-sm rtl:hidden">
           {{ formatPrice(product.price) }} IQD
         </h2>
       </div>
     </div>
-    <p
-      class="text-onSecondaryLight dark:text-onSecondaryDark hidden rtl:block pb-1"
+    <!-- <p
+      class=" text-onSecondaryLight dark:text-onSecondaryDark text-sm hidden rtl:block "
       v-if="!ifShow"
     >
       {{ product.arDescription }}
     </p>
     <p
-      class="text-onSecondaryLight dark:text-onSecondaryDark rtl:hidden pb-1"
+      class=" text-onSecondaryLight dark:text-onSecondaryDark text-sm rtl:hidden  "
       v-if="!ifShow"
     >
       {{ product.enDescription }}
     </p>
     <p
-      class="text-onSecondaryLight dark:text-onSecondaryDark hidden rtl:block pb-1"
+      class=" text-onSecondaryLight dark:text-onSecondaryDark text-sm hidden rtl:block"
     >
       {{ product.arSubtitle }}
     </p>
-    <p class="text-onSecondaryLight dark:text-onSecondaryDark rtl:hidden pb-1">
+    <p
+      class=" text-onSecondaryLight dark:text-onSecondaryDark text-sm rtl:hidden"
+    >
       {{ product.enSubtitle }}
-    </p>
-    <div class="pb-1">
+    </p> -->
+    <div>
       <v-icon
         icon="mdi-star"
-        class="text-greenLight dark:text-greenDark"
+        class="text-greenLight dark:text-greenDark" size="10"
         v-for="i in product.rate"
       ></v-icon>
     </div>
-   <AddToCart :product="product"/>
+    <AddToCart :product="product" />
   </div>
 </template>

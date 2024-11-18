@@ -29,7 +29,9 @@ onMounted(async () => {
     <h1 class="dark:text-white text-xl text-center">
       {{ $t("Shop Our Top Categories") }}
     </h1>
-    <div class="grid grid-cols-2  gap-y-5 justify-items-center place-items-center" >
+    <div
+      class="grid grid-cols-2 gap-y-5 justify-items-center place-items-center"
+    >
       <router-link
         v-for="category in categoriesList"
         :key="category.id"

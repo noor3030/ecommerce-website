@@ -22,8 +22,6 @@ onMounted(async () => {
     });
   });
 });
-
-
 </script>
 
 <template>
@@ -31,7 +29,7 @@ onMounted(async () => {
     <h1 class="dark:text-white text-xl text-center">
       {{ $t("Today best Deals For You!") }}
     </h1>
-    <div class="flex flex-col space-y-8 justify-center content-center">
+    <div class="grid grid-cols-2 justify-items-center gap-y-4">
       <div v-for="bestDeal in bestDealsList" class="space-y-2">
         <ProductCard :product="bestDeal" :ifShow="false" />
       </div>
