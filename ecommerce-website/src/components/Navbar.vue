@@ -1,8 +1,26 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import ThemeSwitcher from "./ThemeSwitcher.vue";
 import LanguageSwitcher from "./LanguageSwitcher.vue";
 import Logo from "./Logo.vue";
 import { useI18n } from "vue-i18n";
+import { useRoute, useRouter } from "vue-router";
+import "animate.css";
+
+const isDrawerOpen = ref(false);
+const drawerAnimation = ref("");
+
+const toggleDrawer = (state: boolean) => {
+  if (state) {
+    drawerAnimation.value = "animate__animated animate__slideInLeft";
+    isDrawerOpen.value = true;
+  } else {
+    drawerAnimation.value = "animate__animated animate__slideOutLeft";
+    setTimeout(() => {
+      isDrawerOpen.value = false;
+    }, 500);
+  }
+};
 
 window.addEventListener("scroll", () => {
   const navbar = document.getElementById("navbar");
@@ -14,15 +32,23 @@ window.addEventListener("scroll", () => {
     }
   }
 });
+
 const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
 
 const pages = [
-  { name: t("Home"), path: "/" },
-  { name: t("Categories"), path: "/categories" },
-  { name: t("Cart"), path: "/cart" },
-  { name: t("Account"), path: "/account" },
-  { name: t("Delivery"), path: "/checkout" },
+  { name: "Home", path: "/" },
+  { name: "Categories", path: "/categories" },
+  { name: "Cart", path: "/cart" },
+  { name: "Account", path: "/account" },
+  { name: "Delivery", path: "/checkout" },
 ];
+
+const navigateToPage = (path: string) => {
+  router.push(path); // Navigate to the selected page
+  toggleDrawer(false); // Close the drawer
+};
 </script>
 
 <template>
@@ -32,17 +58,14 @@ const pages = [
         class="bg-primaryLight px-6 py-2 text-center dark:bg-primaryDark dark:text-black flex justify-between items-center text-[#ffffff]"
       >
         <h4>{{ $t("Get 50% off on selected items") }}</h4>
-
         <h4>|</h4>
         <button>{{ $t("shopNow") }}</button>
       </nav>
       <div class="flex px-6 items-center justify-between">
         <Logo />
         <button
-          class=""
+          @click="toggleDrawer(true)"
           type="button"
-          data-drawer-target="drawer-navigation"
-          data-drawer-show="drawer-navigation"
           aria-controls="drawer-navigation"
         >
           <v-icon icon="mdi-menu" class="text-2xl dark:text-white"></v-icon>
@@ -50,13 +73,16 @@ const pages = [
       </div>
     </div>
     <div
+      v-if="isDrawerOpen"
       id="drawer-navigation"
-      class="fixed top-0 left-0 z-50 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-[#ffff] w-64 dark:bg-gray-800 flex flex-col space-y-4"
-      aria-labelledby="drawer-navigation-label"
+      :class="[
+        'fixed top-0 left-0 z-50 h-screen p-4 overflow-y-auto bg-[#ffff] w-64 dark:bg-gray-800 flex flex-col space-y-4',
+        drawerAnimation,
+      ]"
     >
       <button
         type="button"
-        data-drawer-hide="drawer-navigation"
+        @click="toggleDrawer(false)"
         aria-controls="drawer-navigation"
         class="self-end"
       >
@@ -79,15 +105,30 @@ const pages = [
           />
         </div>
       </form>
-
-      <ul class="flex flex-col space-y-4 text-[#000] dark:text-[#ffff]">
-        <li v-for="page in pages">
-          <router-link :to="page.path">{{ page.name }}</router-link>
-        </li>
-      </ul>
-
-      <ThemeSwitcher />
-      <LanguageSwitcher />
+      <div class="flex flex-col">
+        <ul class="text-[#000] dark:text-[#ffff]">
+          <li
+            v-for="page in pages"
+            :key="page.path"
+            :class="{
+              'bg-[#00462D] dark:bg-[#B9FFE6] text-[#fff] dark:text-[#000]':
+                route.path === page.path,
+              'hover:bg-gray-200 dark:hover:bg-gray-600':
+                route.path !== page.path,
+            }"
+            class="rounded-3xl"
+          >
+            <button
+              @click="navigateToPage(page.path)"
+              class="block px-4 py-2 rounded-lg w-full text-start"
+            >
+              {{ $t(page.name) }}
+            </button>
+          </li>
+        </ul>
+        <ThemeSwitcher />
+        <LanguageSwitcher />
+      </div>
     </div>
   </div>
 </template>

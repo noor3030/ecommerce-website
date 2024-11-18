@@ -2,7 +2,7 @@
   <div class="relative inline-block text-left">
     <button
       @click="toggleDropdown"
-      class="text-[#000] dark:text-[#fff] flex items-center"
+      class="text-[#000] dark:text-[#fff] flex items-center px-4 py-2"
       type="button"
     >
       {{ currentLanguage }}
@@ -10,10 +10,10 @@
     </button>
     <div
       v-if="dropdownOpen"
-      class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-[#fff] dark:bg-gray-700 ring-1 ring-black ring-opacity-5"
+      class="origin-top-right absolute right-0 w-56 rounded-3xl shadow-lg bg-[#fff] dark:bg-gray-700 ring-1 ring-black ring-opacity-5"
     >
       <div
-        class="py-1 rounded-xl"
+        class="rounded-xl"
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="options-menu"
@@ -22,25 +22,27 @@
           href="#"
           @click.prevent="changeLanguage('en')"
           :class="{
-            'bg-primaryLight dark:bg-primaryDark text-[#fff] dark:text-black': locale === 'en',
+            'bg-primaryLight dark:bg-primaryDark text-[#fff] dark:text-black':
+              locale === 'en',
             'text-gray-700 dark:text-gray-300': locale !== 'en',
           }"
           class="block px-4 py-2 text-sm rounded-xl"
           role="menuitem"
         >
-        English
+          English
         </a>
         <a
           href="#"
           @click.prevent="changeLanguage('ar')"
           :class="{
-           'bg-primaryLight dark:bg-primaryDark text-[#fff] dark:text-black': locale === 'ar',
+            'bg-primaryLight dark:bg-primaryDark text-[#fff] dark:text-black':
+              locale === 'ar',
             'text-gray-700 dark:text-gray-300': locale !== 'ar',
           }"
           class="block px-4 py-2 text-sm rounded-xl"
           role="menuitem"
         >
-        العربية 
+          العربية
         </a>
       </div>
     </div>
@@ -60,7 +62,7 @@ const toggleDropdown = () => {
 
 const changeLanguage = (lang: string) => {
   locale.value = lang;
-  localStorage.setItem('language', lang);
+  localStorage.setItem("language", lang);
   dropdownOpen.value = false;
 };
 
@@ -69,7 +71,7 @@ const currentLanguage = computed(() => {
 });
 
 onMounted(() => {
-  const savedLanguage = localStorage.getItem('language');
+  const savedLanguage = localStorage.getItem("language");
   if (savedLanguage) {
     locale.value = savedLanguage;
   }

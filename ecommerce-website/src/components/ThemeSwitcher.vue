@@ -2,19 +2,19 @@
   <div class="relative inline-block text-left">
     <button
       @click="toggleDropdown"
-      class="text-[#000] dark:text-[#fff] flex items-center"
+      class="text-[#000] dark:text-[#fff] flex items-center px-4 py-2"
       type="button"
     >
-      <span v-if="currentTheme === 'light'">  {{ ($t('light')) }}</span>
-      <span v-else>  {{ ($t('dark')) }}</span>
+      <span v-if="currentTheme === 'light'"> {{ $t("light") }}</span>
+      <span v-else> {{ $t("dark") }}</span>
       <v-icon icon="mdi-chevron-down"></v-icon>
     </button>
     <div
       v-if="dropdownOpen"
-      class="origin-top-right z-40 absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-[#fff] dark:bg-gray-700 ring-1 ring-black ring-opacity-5"
+      class="origin-top-right z-40 absolute right-0 w-56 rounded-3xl shadow-lg bg-[#fff] dark:bg-gray-700 ring-1 ring-black ring-opacity-5"
     >
       <div
-        class="py-1 rounded-xl"
+        class="rounded-xl"
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="options-menu"
