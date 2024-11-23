@@ -28,19 +28,19 @@ onMounted(async () => {
       {{ $t("Choose By Brand") }}
     </h1>
 
-    <div class="grid grid-cols-1 space-y-4">
+    <div class="grid grid-cols-2 gap-4">
       <div
         v-for="brand in brandsList"
-        class="bg-secondaryLight dark:bg-secondaryDark rounded-2xl flex p-4 justify-between items-center"
+        class="bg-secondaryLight dark:bg-secondaryDark rounded-2xl flex flex-col p-4 justify-center text-center space-y-2 items-center"
       >
         <div>
           <h2 class="text-[#000] dark:text-[#fff] font-bold text-xl">
             {{ brand.name }}
           </h2>
-            <p class="text-onSecondaryLight dark:text-onSecondaryDark hidden rtl:block">
+            <p class="text-onSecondaryLight dark:text-onSecondaryDark hidden rtl:block text-sm">
                 {{ brand.arDescription }}
             </p>
-            <p class="text-onSecondaryLight dark:text-onSecondaryDark block rtl:hidden">
+            <p class="text-onSecondaryLight dark:text-onSecondaryDark block rtl:hidden text-sm">
                 {{ brand.enDescription }}
             </p>
         </div>

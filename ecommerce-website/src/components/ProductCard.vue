@@ -15,17 +15,21 @@ const formatPrice = (price: number) => {
 </script>
 
 <template>
-  <div class="w-11/12 lex flex-col space-y-1 ">
-    <div class="bg-secondaryLight dark:bg-secondaryDark rounded-xl p-4 flex flex-col ">
+  
+    <div
+      class="bg-secondaryLight dark:bg-secondaryDark rounded-xl p-2 flex flex-col"
+    >
       <div>
-        <v-icon icon="mdi-heart-outline" class="dark:text-[#fff]"></v-icon>
+        <v-icon
+          icon="mdi-heart-outline"
+          class="dark:text-[#fff]"
+          size="18"
+        ></v-icon>
       </div>
       <img :src="product.image" alt="" class="w-full self-center" />
     </div>
     <div>
-      <div
-        class="flex flex-col text-[#000] dark:text-[#fff]  pt-4 space-y-1"
-      >
+      <div class="flex flex-col text-[#000] dark:text-[#fff] pt-4 space-y-1">
         <h2 class="rtl:hidden font-bold text-sm">
           {{ product.enTitle }}
         </h2>
@@ -65,10 +69,11 @@ const formatPrice = (price: number) => {
     <div>
       <v-icon
         icon="mdi-star"
-        class="text-greenLight dark:text-greenDark" size="10"
+        class="text-greenLight dark:text-greenDark"
+        size="18"
         v-for="i in product.rate"
       ></v-icon>
     </div>
     <AddToCart :product="product" />
-  </div>
+
 </template>
