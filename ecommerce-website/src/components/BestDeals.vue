@@ -29,15 +29,11 @@ onMounted(async () => {
     <h1 class="dark:text-white text-xl text-center">
       {{ $t("Today best Deals For You!") }}
     </h1>
-    <div
-      class="grid grid-cols-2 gap-y-5 justify-items-center place-items-center"
-    >
-      <div
-        v-for="bestDeal in bestDealsList"
-        class="w-11/12 flex flex-col space-y-1"
-      >
-        <ProductCard :product="bestDeal" :ifShow="false" />
-      </div>
+    <div class="grid grid-cols-2 gap-4 justify-items-center items-center">
+  <div v-for="bestDeal in bestDealsList" class="flex flex-col space-y-1">
+    <ProductCard :product="bestDeal" :ifShow="false" />
+  </div>
+
     </div>
   </section>
 </template>
