@@ -11,7 +11,7 @@
     </button>
     <div
       v-if="dropdownOpen"
-      class="origin-top-right z-40 absolute right-0 w-56 rounded-3xl shadow-lg bg-[#fff] dark:bg-gray-700 ring-1 ring-black ring-opacity-5"
+      class="origin-top-right z-40 absolute right-0 w-56 rounded-3xl shadow-lg bg-[#fff] dark:bg-gray-700 ring-1 ring-black ring-opacity-5 xl:mt-4 xl:w-20 xl:right-0 xl:left-0 xl:text-center"
     >
       <div
         class="rounded-xl"

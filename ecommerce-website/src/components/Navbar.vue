@@ -57,19 +57,54 @@ const navigateToPage = (path: string) => {
       <nav
         class="bg-primaryLight px-6 py-2 text-center dark:bg-primaryDark dark:text-black flex justify-between items-center text-[#ffffff]"
       >
-        <h4>{{ $t("Get 50% off on selected items") }}</h4>
-        <h4>|</h4>
-        <button>{{ $t("shopNow") }}</button>
+        <div class="hidden xl:flex space-x-2 rtl:space-x-reverse">
+          <v-icon icon="mdi-phone-outline"></v-icon>
+          <p>07700000000</p>
+        </div>
+        <div class="hidden xl:flex space-x-4 rtl:space-x-reverse">
+          <h4>{{ $t("Get 50% off on selected items") }}</h4>
+          <h4>|</h4>
+          <button>{{ $t("shopNow") }}</button>
+        </div>
+        <div class="hidden xl:block">
+          <ThemeSwitcher /> <LanguageSwitcher />
+        </div>
+
+        <h4 class="block xl:hidden">
+          {{ $t("Get 50% off on selected items") }}
+        </h4>
+        <h4 class="block xl:hidden">|</h4>
+        <button class="block xl:hidden">{{ $t("shopNow") }}</button>
       </nav>
       <div class="flex px-6 items-center justify-between">
         <Logo />
         <button
+          class="xl:hidden"
           @click="toggleDrawer(true)"
           type="button"
           aria-controls="drawer-navigation"
         >
           <v-icon icon="mdi-menu" class="text-2xl dark:text-white"></v-icon>
         </button>
+        <div class="xl:flex hidden space-x-6 rtl:space-x-reverse">
+          <router-link
+            v-for="page in pages"
+            :to="page.path"
+            class="hover:text-primaryLight dark:hover:text-primaryDark hover:font-bold hover:underline text-lg"
+            active-class="text-primaryLight font-bold underline dark:text-primaryDark"
+          >
+            {{ page.name }}
+          </router-link>
+        </div>
+        <div class="hidden xl:block">
+          <input
+            type="search"
+            id="default-search"
+            class=" w-full p-4 ps-10 text-sm text-onSecondaryLight dark:text-onSecondaryDark rounded-xl bg-secondaryLight dark:bg-secondaryDark border-none"
+            :placeholder="$t('search')"
+            required
+          />
+        </div>
       </div>
     </div>
     <div
