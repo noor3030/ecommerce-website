@@ -11,7 +11,7 @@ const props = defineProps<{
 
 <template>
   <div class="flex flex-col space-y-4">
-    <h1>{{ $t("Review Items And Shipping") }}</h1>
+    <h1 class="text-[#000] dark:text-[#fff]">{{ $t("Review Items And Shipping") }}</h1>
     <div
       v-for="item in cartList"
       :key="item.id"
@@ -31,8 +31,8 @@ const props = defineProps<{
           <h1 class="rtl:hidden text-[#000] dark:text-[#fff]">
             {{ item.enTitle }}
           </h1>
-          <p class="rtl:hidden">{{ formatPrice(item.price) }} IQD</p>
-          <p class="rtl:block hidden">{{ formatPrice(item.price) }} د.ع</p>
+          <p class="rtl:hidden text-[#000] dark:text-[#fff]">{{ formatPrice(item.price) }} IQD</p>
+          <p class="rtl:block hidden text-[#000] dark:text-[#fff]">{{ formatPrice(item.price) }} د.ع</p>
           <div
             class="bg-secondaryLight dark:bg-secondaryDark text-onSecondaryLight dark:text-onSecondaryDark rounded-3xl p-2 w-fit flex space-x-4 px-4 rtl:space-x-reverse"
           >

@@ -23,16 +23,16 @@ const selectedMethod = ref<number | null>(null);
     style="border: 1px solid; border-color: gray"
     class="rounded-2xl p-4 flex flex-col space-y-4"
   >
-    <h1>{{ $t("Order Summary") }}</h1>
+    <h1 class="text-[#000] dark:text-[#fff]">{{ $t("Order Summary") }}</h1>
     <div
-      class="flex w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-3xl focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white justify-between"
+      class="flex w-full bg-secondaryLight text-[#000] text-sm rounded-3xl dark:bg-secondaryDark dark:text-[#fff]"
     >
       <input
         type="number"
-        class="bg-gray-50 text-gray-900 text-sm rounded-3xl block p-2.5 dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-0"
+        class="bg-secondaryLight text-[#000] text-sm rounded-3xl block dark:bg-secondaryDark dark:text-[#fff] focus:outline-none focus:ring-0 w-3/5"
       />
       <button
-        class="bg-primaryLight dark:bg-primaryDark text-[#fff] dark:text-[#000] rounded-3xl p-2.5"
+        class="bg-primaryLight dark:bg-primaryDark text-[#fff] dark:text-[#000] rounded-3xl p-2.5 w-2/5"
       >
         {{ $t("Apply Coupon") }}
       </button>
@@ -67,14 +67,14 @@ const selectedMethod = ref<number | null>(null);
           type="text"
           class="credit-input"
           required
-          placeholder="Card Number"
+          :placeholder="$t('Card Number')"
         />
 
         <input
           type="text"
           class="credit-input"
           required
-          placeholder="Expiration Date"
+          :placeholder="$t('Expiry Date')"
         />
 
         <input type="text" class="credit-input" required placeholder="CVV" />
@@ -96,12 +96,14 @@ const selectedMethod = ref<number | null>(null);
       <h1>{{ $t("Shipping Cost") }}</h1>
       <h1>0,000 IQD</h1>
     </div>
-    <VDivider></VDivider>
+    <v-divider></v-divider>
     <div class="flex justify-between items-center text-[#000] dark:text-[#fff]">
       <h1>{{ $t("Total") }}</h1>
       <h1>100,000 IQD</h1>
     </div>
-    <button class="bg-primaryLight dark:bg-primaryDark rounded-3xl p-2.5 text-[#fff] dark:text-[#000]">
+    <button
+      class="bg-primaryLight dark:bg-primaryDark rounded-3xl p-2.5 text-[#fff] dark:text-[#000]"
+    >
       {{ $t("Pay") }}
     </button>
   </div>
